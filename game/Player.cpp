@@ -58,7 +58,7 @@ const int HEALTH_PER_DOSE = 10;
 const int WEAPON_DROP_TIME = 20 * 1000;
 
 // time before a next or prev weapon switch happens
-const int	WEAPON_SWITCH_DELAY		= 150;
+const int	WEAPON_SWITCH_DELAY		= 50;
 
 const float	PLAYER_ITEM_DROP_SPEED	= 100.0f;
 
@@ -70,7 +70,7 @@ const int	ARMOR_PULSE			= 1000;			// armor ticking down due to being higher than
 const int	AMMO_REGEN_PULSE	= 1000;			// ammo regen in Arena CTF
 const int	POWERUP_BLINKS		= 5;			// Number of times the powerup wear off sound plays
 const int	POWERUP_BLINK_TIME	= 1000;			// Time between powerup wear off sounds
-const float MIN_BOB_SPEED		= 5.0f;			// minimum speed to bob and play run/walk animations at
+const float MIN_BOB_SPEED		= 0.0f;			// minimum speed to bob and play run/walk animations at
 const int	MAX_RESPAWN_TIME	= 10000;
 const int	RAGDOLL_DEATH_TIME	= 3000;
 #ifdef _XENON
@@ -78,7 +78,7 @@ const int	RAGDOLL_DEATH_TIME	= 3000;
 	const int	MAX_RESPAWN_TIME_XEN_SP	= 3000;
 #endif
 const int	STEPUP_TIME			= 200;
-const int	MAX_INVENTORY_ITEMS = 20;
+const int	MAX_INVENTORY_ITEMS = 30;
 
 const int	ARENA_POWERUP_MASK = ( 1 << POWERUP_AMMOREGEN ) | ( 1 << POWERUP_GUARD ) | ( 1 << POWERUP_DOUBLER ) | ( 1 << POWERUP_SCOUT );
 
@@ -7662,7 +7662,7 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 
 	// add angles based on bob
 	// make sure the bob is visible even at low speeds
-	speed = xyspeed > 200 ? xyspeed : 200;
+	speed = xyspeed > 200 ? xyspeed : 50;
 
 	delta = bobfracsin * pm_bobpitch.GetFloat() * speed;
 	if ( physicsObj.IsCrouching() ) {
@@ -8748,7 +8748,8 @@ void idPlayer::AdjustSpeed( void ) {
 		bobFrac = 1.0f;
 		speed = pm_speed.GetFloat();
 	} else {
-		speed = pm_walkspeed.GetFloat();
+		speed = 325.0f;
+		//speed = pm_walkspeed.GetFloat();
 		bobFrac = 0.0f;
 	}
 
