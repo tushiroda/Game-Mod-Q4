@@ -12,7 +12,7 @@ const float PM_SWIMSCALE		= 0.5f;
 const float PM_LADDERSPEED		= 100.0f;
 const float PM_STEPSCALE		= 1.0f;
 
-const float PM_ACCELERATE_SP	= 30.0f;
+const float PM_ACCELERATE_SP	= 40.0f;
 const float PM_AIRACCELERATE_SP	= 2.8f;
 const float PM_ACCELERATE_MP	= 3.0f;
 const float PM_AIRACCELERATE_MP	= 1.18f;
@@ -20,13 +20,14 @@ const float PM_WATERACCELERATE	= 4.0f;
 const float PM_FLYACCELERATE	= 8.0f;
 
 const float PM_FRICTION			= 15.0f;
-const float PM_AIRFRICTION		= 0.7f;
+const float PM_AIRFRICTION		= 0.6f;
 const float PM_WATERFRICTION	= 2.0f;
 const float PM_FLYFRICTION		= 3.0f;
 const float PM_NOCLIPFRICTION	= 12.0f;
 // RAVEN BEGIN
 // bdube: sliding
-const float PM_SLIDEFRICTION    = 1.0f;
+const float PM_SLIDEFRICTION    = 0.5f;
+const float PM_SLIDEACCELERATE	= 1.2f;
 // RAVEN END
 
 const float MIN_WALK_NORMAL		= 0.8f;		// can't walk on very steep slopes
@@ -489,6 +490,9 @@ void idPhysics_Player::Friction( void ) {
 				control = speed < PM_STOPSPEED ? PM_STOPSPEED : speed;
 // RAVEN BEGIN
 // bdube: crouch slide
+				if (speed > 140) {
+					current.crouchSlideTime += 3;
+				}
 			
 				if ( current.crouchSlideTime > 0  && current.movementFlags & PMF_DUCKED) {
 					drop += control * PM_SLIDEFRICTION * frametime;
@@ -644,9 +648,6 @@ void idPhysics_Player::AirMove( void ) {
 
 // RAVEN BEGIN
 // bdube: crouch time
-	// if the player isnt pressing crouch and heading down then accumulate slide time
-	//change: make it so you dont have to be falling to slide?
-	current.crouchSlideTime += framemsec * 2;
 	
 	/*
 	if ( command.upmove >= 0  && current.velocity * gravityNormal > 0) {
@@ -720,10 +721,6 @@ void idPhysics_Player::WalkMove( void ) {
 		return;
 	}
 
-	//change: be able to slide from run/walk
-	if (current.movementFlags) {
-		current.crouchSlideTime += framemsec * 2;
-	}
 	idPhysics_Player::Friction();
 
 	scale = idPhysics_Player::CmdScale( command );
@@ -761,6 +758,11 @@ void idPhysics_Player::WalkMove( void ) {
 	}
 	else {
 		accelerate = Pm_Accelerate();
+	}
+
+	//change: if crouch sliding, change acceleration
+	if (current.crouchSlideTime > 0 && current.movementFlags & PMF_DUCKED) {
+		accelerate = PM_SLIDEACCELERATE;
 	}
 
 	idPhysics_Player::Accelerate( wishdir, wishspeed, accelerate );
@@ -1292,12 +1294,10 @@ bool idPhysics_Player::CheckJump( void ) {
 
 	//change: make it so you can crouch and jump?
 
-	/*
+	
 	if (command.upmove <= 0) {
 		// not holding jump
-		if (!(current.movementFlags & PMF_DUCKED)) {
-			return false;
-		}
+		return false;
 	}
 
 	// must wait for jump to be released
@@ -1311,12 +1311,11 @@ bool idPhysics_Player::CheckJump( void ) {
 		return false;
 	}
 
-	if (!groundPlane) {
-		current.movementFlags |= PMF_JUMP_HELD | PMF_JUMPED;
-	}
+	
+	current.movementFlags |= PMF_JUMP_HELD | PMF_JUMPED;
 	groundPlane = false;		// jumping away
 	walking = false;
-	*/
+	
 
 	addVelocity = 2.7f * maxJumpHeight * -gravityVector;
 	addVelocity *= idMath::Sqrt( addVelocity.Normalize() );
@@ -1324,7 +1323,6 @@ bool idPhysics_Player::CheckJump( void ) {
 
 // RAVEN BEGIN
 // bdube: crouch slide, nick maggoire is awesome
-	current.crouchSlideTime = 0;
 // RAVEN END
 
 	return true;
