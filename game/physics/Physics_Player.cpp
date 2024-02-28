@@ -7,26 +7,27 @@ CLASS_DECLARATION( idPhysics_Actor, idPhysics_Player )
 END_CLASS
 
 // movement parameters
-const float PM_STOPSPEED		= 100.0f;
+const float PM_STOPSPEED		= 50.0f;
 const float PM_SWIMSCALE		= 0.5f;
 const float PM_LADDERSPEED		= 100.0f;
 const float PM_STEPSCALE		= 1.0f;
 
-const float PM_ACCELERATE_SP	= 10.0f;
+const float PM_ACCELERATE_SP	= 30.0f;
 const float PM_AIRACCELERATE_SP	= 1.0f;
 const float PM_ACCELERATE_MP	= 15.0f;
 const float PM_AIRACCELERATE_MP	= 1.18f;
 const float PM_WATERACCELERATE	= 4.0f;
 const float PM_FLYACCELERATE	= 8.0f;
 
-const float PM_FRICTION			= 6.0f;
-const float PM_AIRFRICTION		= 0.0f;
+const float PM_FRICTION			= 15.0f;
+const float PM_AIRFRICTION		= 0.3f;
 const float PM_WATERFRICTION	= 2.0f;
 const float PM_FLYFRICTION		= 3.0f;
 const float PM_NOCLIPFRICTION	= 12.0f;
 // RAVEN BEGIN
 // bdube: sliding
 const float PM_SLIDEFRICTION    = 0.5f;
+const float PM_SLIDEACCEL		= 0.1f;
 // RAVEN END
 
 const float MIN_WALK_NORMAL		= 0.7f;		// can't walk on very steep slopes
@@ -485,7 +486,11 @@ void idPhysics_Player::Friction( void ) {
 				control = speed < PM_STOPSPEED ? PM_STOPSPEED : speed;
 // RAVEN BEGIN
 // bdube: crouch slide
-				if ( current.crouchSlideTime > 0 ) {
+
+				if (speed > 230) {
+					current.crouchSlideTime += 3;
+				}
+				if ( current.crouchSlideTime > 0 && current.movementFlags & PMF_DUCKED ) {
 					drop += control * PM_SLIDEFRICTION * frametime;
 				} else {
 					drop += control * PM_FRICTION * frametime;
@@ -640,12 +645,6 @@ void idPhysics_Player::AirMove( void ) {
 // RAVEN BEGIN
 // bdube: crouch time
 	// if the player isnt pressing crouch and heading down then accumulate slide time
-	if ( command.upmove >= 0 && current.velocity * gravityNormal > 0 ) {	
-		current.crouchSlideTime += framemsec * 2;
-		if ( current.crouchSlideTime > 2000 ) {
-			current.crouchSlideTime = 2000;
-		}
-	}
 // RAVEN END
 
 	idPhysics_Player::Friction();
@@ -746,6 +745,11 @@ void idPhysics_Player::WalkMove( void ) {
 	}
 	else {
 		accelerate = Pm_Accelerate();
+	}
+
+	//change:crouch accel
+	if (current.movementFlags & PMF_DUCKED && current.crouchSlideTime > 0) {
+		accelerate = PM_SLIDEACCEL;
 	}
 
 	idPhysics_Player::Accelerate( wishdir, wishspeed, accelerate );
@@ -1180,9 +1184,6 @@ void idPhysics_Player::CheckDuck( void ) {
 			maxZ = pm_normalheight.GetFloat();
 // RAVEN BEGIN
 // bdube: crouch slide
-			if ( groundPlane && current.crouchSlideTime ) {
-				current.crouchSlideTime = 0;
-			}
 // RAVEN END			
 		}
 	}
