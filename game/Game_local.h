@@ -1189,14 +1189,14 @@ public:
 #define	MASK_MONSTERCLIP			(CONTENTS_SOLID|CONTENTS_MONSTERCLIP)
 // RAVEN END
 
-const float DEFAULT_GRAVITY			= 1066.0f;
+const float DEFAULT_GRAVITY			= 0.0f;
 const float DEFAULT_GRAVITY_MP		= 800.0f;
 
-#define DEFAULT_GRAVITY_STRING		"1066"
+#define DEFAULT_GRAVITY_STRING		"0"
 #define DEFAULT_MP_GRAVITY_STRING	"800"
 const idVec3 DEFAULT_GRAVITY_VEC3( 0, 0, -DEFAULT_GRAVITY );
 
-const int	CINEMATIC_SKIP_DELAY	= SEC2MS( 2.0f );
+const int	CINEMATIC_SKIP_DELAY	= SEC2MS( 0.0f );
 
 //============================================================================
 
