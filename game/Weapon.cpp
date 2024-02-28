@@ -2515,8 +2515,7 @@ void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuse
 		return;
 	}
 
-	//My edit
-	//deleted ammo restrictions
+	//change: deleted ammo restrictions
 	/*
 	// avoid all ammo considerations on an MP client
 	if ( !gameLocal.isClient ) {
