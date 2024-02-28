@@ -30,7 +30,7 @@ const float PM_SLIDEFRICTION    = 0.5f;
 const float PM_SLIDEACCEL		= 0.1f;
 // RAVEN END
 
-const float MIN_WALK_NORMAL		= 0.7f;		// can't walk on very steep slopes
+const float MIN_WALK_NORMAL		= 0.8f;		// can't walk on very steep slopes
 const float OVERCLIP			= 1.001f;
 
 // movementFlags
@@ -43,6 +43,9 @@ const int PMF_TIME_LAND			= 32;		// movementTime is time before rejump
 const int PMF_TIME_KNOCKBACK	= 64;		// movementTime is an air-accelerate only time
 const int PMF_TIME_WATERJUMP	= 128;		// movementTime is waterjump
 const int PMF_ALL_TIMES			= (PMF_TIME_WATERJUMP|PMF_TIME_LAND|PMF_TIME_KNOCKBACK);
+
+//change: double jump flag
+bool canDoubleJump = true;
 
 int c_pmove = 0;
 
@@ -647,6 +650,8 @@ void idPhysics_Player::AirMove( void ) {
 	// if the player isnt pressing crouch and heading down then accumulate slide time
 // RAVEN END
 
+	idPhysics_Player::CheckJump();
+
 	idPhysics_Player::Friction();
 
 	scale = idPhysics_Player::CmdScale( command );
@@ -690,6 +695,8 @@ void idPhysics_Player::WalkMove( void ) {
 	float		accelerate;
 	idVec3		oldVelocity, vel;
 	float		oldVel, newVel;
+
+	canDoubleJump = true;
 
 	if ( waterLevel > WATERLEVEL_WAIST && ( viewForward * groundTrace.c.normal ) > 0.0f ) {
 		// begin swimming
@@ -1285,16 +1292,28 @@ bool idPhysics_Player::CheckJump( void ) {
 		return false;
 	}
 
-	// don't jump if we can't stand up
-	if ( current.movementFlags & PMF_DUCKED ) {
+	// cant have alreaedy double jumped
+	if (!canDoubleJump) {
 		return false;
+	}
+
+	if (!groundPlane) {
+		canDoubleJump = false;
 	}
 
 	groundPlane = false;		// jumping away
 	walking = false;
 	current.movementFlags |= PMF_JUMP_HELD | PMF_JUMPED;
 
-	addVelocity = 2.0f * maxJumpHeight * -gravityVector;
+	//change: make double jump feel slightly better
+	if (current.velocity.z < 0) {
+		current.velocity.z = 0;
+	}
+	if (current.velocity.z < -(1.7f * maxJumpHeight * -gravityVector).Normalize()) {
+		current.velocity.z /= 3;
+	}
+
+	addVelocity = 2.4f * maxJumpHeight * -gravityVector;
 	addVelocity *= idMath::Sqrt( addVelocity.Normalize() );
 	current.velocity += addVelocity;
 
