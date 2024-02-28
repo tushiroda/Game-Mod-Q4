@@ -502,7 +502,7 @@ stateResult_t idPlayer::State_Legs_Crouch_Idle ( const stateParms_t& parms ) {
 	};
 	switch ( parms.stage ) {
 		case STAGE_INIT:			
-			if ( !pfl.crouch ) {
+			if ( !pfl.crouch && !pfl.jump ) {
 				PostAnimState ( ANIMCHANNEL_LEGS, "Legs_Uncrouch", parms.blendFrames );
 				return SRESULT_DONE;
 			}
@@ -510,7 +510,7 @@ stateResult_t idPlayer::State_Legs_Crouch_Idle ( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_WAIT );
 		
 		case STAGE_WAIT:
-			if ( !pfl.crouch || pfl.jump ) {
+			if ( !pfl.crouch ) {
  				PostAnimState ( ANIMCHANNEL_LEGS, "Legs_Uncrouch", 4 );
 				return SRESULT_DONE;
 			} else if ( (pfl.forward && !pfl.backward) || (pfl.strafeLeft != pfl.strafeRight) ) {				
