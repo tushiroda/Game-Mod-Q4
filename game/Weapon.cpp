@@ -2469,7 +2469,12 @@ void rvWeapon::AddToClip ( int amount ) {
  		return;
  	}
 
-	ammoClip = clipSize;
+	if (amount == 1) {
+		ammoClip += 1;
+	}
+	else {
+		ammoClip = clipSize;
+	}
 	/*
 
 	ammoAvail = owner->inventory.HasAmmo( ammoType, ammoRequired );
@@ -2591,8 +2596,6 @@ void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuse
 	if ( !gameLocal.isClient ) {
 		idDict& dict = altAttack ? attackAltDict : attackDict;
 		power *= owner->PowerUpModifier( PMOD_PROJECTILE_DAMAGE );
-		//change: print attack dict
-		dict.Print();
 		if ( altAttack ? wfl.attackAltHitscan : wfl.attackHitscan ) {
 			Hitscan( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, power );
 		} else {
