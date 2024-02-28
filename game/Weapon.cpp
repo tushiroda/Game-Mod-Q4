@@ -2469,10 +2469,8 @@ void rvWeapon::AddToClip ( int amount ) {
  		return;
  	}
 
-	ammoClip += amount;
-	if ( ammoClip > clipSize ) {
-		ammoClip = clipSize;
-	}
+	ammoClip = clipSize;
+	/*
 
 	ammoAvail = owner->inventory.HasAmmo( ammoType, ammoRequired );
 	if ( ammoAvail > 0 && ammoClip > ammoAvail ) {
@@ -2488,6 +2486,7 @@ void rvWeapon::AddToClip ( int amount ) {
 	if ( ammoClip == 0 && AmmoAvailable() == 0 ) {
 		viewModel->PostGUIEvent ( "weapon_noammo" );
 	}
+	*/
 }
 
 /***********************************************************************
@@ -2515,29 +2514,24 @@ void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuse
 		return;
 	}
 
-	//My edit
-	//deleted ammo restrictions
-	/*
 	// avoid all ammo considerations on an MP client
-	if ( !gameLocal.isClient ) {
+	if (!gameLocal.isClient) {
 		// check if we're out of ammo or the clip is empty
-		int ammoAvail = owner->inventory.HasAmmo( ammoType, ammoRequired );
-		if ( !ammoAvail || ( ( clipSize != 0 ) && ( ammoClip <= 0 ) ) ) {
+		int ammoAvail = owner->inventory.HasAmmo(ammoType, ammoRequired);
+		if (!ammoAvail || ((clipSize != 0) && (ammoClip <= 0))) {
 			return;
 		}
 
-		owner->inventory.UseAmmo( ammoType, ammoRequired );
-		if ( clipSize && ammoRequired ) {
- 			clipPredictTime = gameLocal.time;	// mp client: we predict this. mark time so we're not confused by snapshots
-			ammoClip = -1;
+		if (clipSize && ammoRequired) {
+			clipPredictTime = gameLocal.time;	// mp client: we predict this. mark time so we're not confused by snapshots
+			ammoClip -= 1;
 		}
 
 		// wake up nearby monsters
-		if ( !wfl.silent_fire ) {
-			gameLocal.AlertAI( owner );
+		if (!wfl.silent_fire) {
+			gameLocal.AlertAI(owner);
 		}
 	}
-	*/
 
 	// set the shader parm to the time of last projectile firing,
 	// which the gun material shaders can reference for single shot barrel glows, etc
@@ -2597,6 +2591,8 @@ void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuse
 	if ( !gameLocal.isClient ) {
 		idDict& dict = altAttack ? attackAltDict : attackDict;
 		power *= owner->PowerUpModifier( PMOD_PROJECTILE_DAMAGE );
+		//change: print attack dict
+		dict.Print();
 		if ( altAttack ? wfl.attackAltHitscan : wfl.attackHitscan ) {
 			Hitscan( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, power );
 		} else {
