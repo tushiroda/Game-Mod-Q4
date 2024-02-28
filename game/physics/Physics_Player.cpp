@@ -27,7 +27,7 @@ const float PM_NOCLIPFRICTION	= 12.0f;
 // RAVEN BEGIN
 // bdube: sliding
 const float PM_SLIDEFRICTION    = 0.5f;
-const float PM_SLIDEACCEL		= 0.1f;
+const float PM_SLIDEACCEL		= 0.03f;
 // RAVEN END
 
 const float MIN_WALK_NORMAL		= 0.7f;		// can't walk on very steep slopes
@@ -43,6 +43,9 @@ const int PMF_TIME_LAND			= 32;		// movementTime is time before rejump
 const int PMF_TIME_KNOCKBACK	= 64;		// movementTime is an air-accelerate only time
 const int PMF_TIME_WATERJUMP	= 128;		// movementTime is waterjump
 const int PMF_ALL_TIMES			= (PMF_TIME_WATERJUMP|PMF_TIME_LAND|PMF_TIME_KNOCKBACK);
+
+//change: flag for double jump
+bool canDoubleJump = true;
 
 int c_pmove = 0;
 
@@ -636,16 +639,13 @@ void idPhysics_Player::FlyMove( void ) {
 idPhysics_Player::AirMove
 ===================
 */
-void idPhysics_Player::AirMove( void ) {
+void idPhysics_Player::AirMove(void) {
 	idVec3		wishvel;
 	idVec3		wishdir;
 	float		wishspeed;
 	float		scale;
 
-// RAVEN BEGIN
-// bdube: crouch time
-	// if the player isnt pressing crouch and heading down then accumulate slide time
-// RAVEN END
+	idPhysics_Player::CheckJump();
 
 	idPhysics_Player::Friction();
 
@@ -690,6 +690,8 @@ void idPhysics_Player::WalkMove( void ) {
 	float		accelerate;
 	idVec3		oldVelocity, vel;
 	float		oldVel, newVel;
+
+	canDoubleJump = true;
 
 	if ( waterLevel > WATERLEVEL_WAIST && ( viewForward * groundTrace.c.normal ) > 0.0f ) {
 		// begin swimming
@@ -1280,21 +1282,32 @@ bool idPhysics_Player::CheckJump( void ) {
 		return false;
 	}
 
+	if (!canDoubleJump) {
+		return false;
+	}
+
 	// must wait for jump to be released
 	if ( current.movementFlags & PMF_JUMP_HELD ) {
 		return false;
 	}
 
-	// don't jump if we can't stand up
-	if ( current.movementFlags & PMF_DUCKED ) {
-		return false;
+	//change: if in air, set flag to false
+	if (!groundPlane) {
+		canDoubleJump = false;
 	}
 
 	groundPlane = false;		// jumping away
 	walking = false;
 	current.movementFlags |= PMF_JUMP_HELD | PMF_JUMPED;
 
-	addVelocity = 2.0f * maxJumpHeight * -gravityVector;
+	if (current.velocity.z < 0) {
+		current.velocity.z = 0;
+	}
+	else if (current.velocity.z > -(1.7f * maxJumpHeight * -gravityVector).Normalize()) {
+		current.velocity.z /= 2;
+	}
+
+	addVelocity = 2.4f * maxJumpHeight * -gravityVector;
 	addVelocity *= idMath::Sqrt( addVelocity.Normalize() );
 	current.velocity += addVelocity;
 
