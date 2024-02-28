@@ -1064,7 +1064,7 @@ bool idInventory::UseAmmo( int index, int amount ) {
 
 	// take an ammo away if not infinite
 	if ( ammo[ index ] >= 0 ) {
-		ammo[ index ] -= amount;
+		//ammo[ index ] -= amount;
  		ammoPredictTime = gameLocal.time; // mp client: we predict this. mark time so we're not confused by snapshots
 	}
 
