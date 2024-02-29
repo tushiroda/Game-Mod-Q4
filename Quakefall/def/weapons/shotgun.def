@@ -90,7 +90,7 @@ entityDef weapon_shotgun
 	"inv_name"				"#str_107410"
 
 	"weaponname"				"Shotgun"
-	"def_projectile"				"projectile_nail"
+	"def_projectile"				"projectile_napalm"
 	"mtr_crosshair"				"gfx/guis/crosshairs/crosshair_shotgun"
 	"ammoType"				"ammo_shotgun"
 	"clipSize"				"4"

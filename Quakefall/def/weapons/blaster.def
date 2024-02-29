@@ -78,19 +78,18 @@ entityDef weapon_blaster
 	"joint_world_flash"			"muzzle_flash"
 
 	// Firing properties
-	"chargeTime"				"2"
+	"chargeTime"				"1.5"
 	"chargeDelay"				".1"
-	"chargeGlow"				"0 .4"
+	"chargeGlow"				"0 .8"
 	"fireRate"					".15"
 	"spread"					".2"
 
-//	"def_projectile"			"projectile_blaster"
 	"def_hitscan"				"hitscan_railgun"
 	"def_altprojectile"			"projectile_blaster_charged"
 	"ammoType"					"ammo_blaster"
 	"clipSize"					"0"
 	"ammoRequired"				"0"
-//	"launchFromBarrel"			"1"
+//	"launchFromBarrel"			"0"
 
 	"inv_weapon"				"weapon_blaster"
 	"inv_item"					"5"
