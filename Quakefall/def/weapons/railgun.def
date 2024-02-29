@@ -72,11 +72,11 @@ entityDef weapon_railgun
 
 	"spawnclass"				"idItem"
 	"weaponclass"				"rvWeaponRailgun"
-	"size"						"32 32 32"
-	"model_view" 				"weapon_lightninggun_view"
-	"model_view_strogg" 		"weapon_railgun_view_strogg"
+	"size"					"32 32 32"
+	"model_view" 				"weapon_railgun_view"
+	"model_view_strogg" 			"weapon_railgun_view_strogg"
   	"model_world"				"weapon_railgun_world"
-	"model"						"models/weapons/railgun/world/w_rg.lwo"
+	"model"					"models/weapons/railgun/world/w_rg.lwo"
 	"def_dropItem"				"weapon_railgun"
 
 	"joint_attach"				"RG_ATTACHER"
@@ -84,8 +84,8 @@ entityDef weapon_railgun
   	"joint_view_barrel"			"srocket_muzzle_flash"
 	"joint_world_flash"			"muzzle_flash"
 
-	"fireRate"					"0.01"
-	"spread"					"5"
+	"fireRate"				"1.6"
+	"spread"				"0"
 
 	"inv_weapon"				"weapon_railgun"
 	"inv_start_ammo_railgun"		"10"
@@ -98,8 +98,8 @@ entityDef weapon_railgun
 
 	"ammoType"				"ammo_railgun"
 	"ammoRequired"				"1"
-	"clipSize"					"5"
-	"lowAmmo"					"1"
+	"clipSize"				"3"
+	"lowAmmo"				"1"
 	"continuousFire"			"1"
 	"dryFireReload" 			"1"
 	"switchWhenEmpty"			"0"
@@ -114,7 +114,7 @@ entityDef weapon_railgun
 	"muzzle_kick_angles"		"0 0 0"
 	"muzzle_kick_offset"		"0.5 .15 .15" // 1 1 2" //"2.5 1 2"
 
-	"recoilTime"				"0"
+	"recoilTime"				"600"
 	"recoilAngles"				"-.10 0 0"
 	
 	"barrelPressure"			"250"
@@ -176,6 +176,7 @@ entityDef weapon_railgun_mp
 	"fireRate"				"1.5"
 	"inv_icon"				"gfx/guis/hud/icons/item_railgun_colored.tga"
 	"mtr_simple_icon"		"simpleicons/item_railgun_colored.tga"
+	"simple_icon_scale"			"32.0"
 	"triggerSize"				"32"
 	
 	"muzzle_kick_time"			"0"
@@ -191,6 +192,8 @@ entityDef weapon_railgun_mp
 	
 	// played when you touch a weapon you can't acquire, i.e. weaponStay in MP
 	"snd_noAcquire"			"pickup_weaponstay"
+
+	"inv_start_ammo_railgun"		"7"
 }
 
 entityDef moveable_item_railgun
@@ -383,6 +386,7 @@ entityDef hitscan_railgun_mp
 	"fx_impact"				"effects/weapons/railgun/impact_default.fx"
 	"fx_impact_water"			"effects/ambient/splash_med.fx"
 	"fx_path"				"effects/weapons/railgun/trail.fx"
+	"fx_path_mp_low"				"effects/weapons/railgun/trail_mp_low.fx"
 	"fx_impact_bpglass"			"effects/weapons/railgun/impact_bpglass.fx"
 	"fx_impact_glass"			"effects/weapons/railgun/impact_glass.fx"
 	"fx_impact_concrete"			"effects/weapons/railgun/impact_concrete.fx"
@@ -452,5 +456,5 @@ entityDef damage_railgun
 entityDef damage_railgun_mp 
 {
 	"inherit"					"damage_railgun"
-	"damage"					"100"
+	"damage"					"90"
 }

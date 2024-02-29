@@ -25,6 +25,9 @@ const int NAILGUN_MOD_SEEK				= BIT(1);
 
 const int NAILGUN_SPIN_SNDCHANNEL		= SND_CHANNEL_BODY2;
 
+//change: for wingman, make it semi auto
+bool mouseReleased = true;
+
 class rvWeaponNailgun : public rvWeapon {
 public:
 
@@ -429,6 +432,9 @@ Set the drum spin speed
 */
 bool rvWeaponNailgun::DrumSpin ( int speed, int blendFrames ) {
 	// Dont bother if the drum is already spinning at the desired speed
+	//change: maybe just ignore drum speed?
+	return false;
+
 	if ( drumSpeedIdeal == speed ) {
 		return false;
 	}
@@ -657,7 +663,7 @@ stateResult_t rvWeaponNailgun::State_Fire( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_FIRE );
 			
 		case STAGE_FIRE:
-			if ( !wsfl.attack || wsfl.reload || wsfl.lowerWeapon || AmmoInClip ( ) <= 0 ) {
+			if ( !mouseReleased || !wsfl.attack || wsfl.reload || wsfl.lowerWeapon || AmmoInClip ( ) <= 0 ) {
 				return SRESULT_STAGE ( STAGE_DONE );
 			}
 			if ( mods & NAILGUN_MOD_ROF_AMMO ) {
@@ -669,9 +675,11 @@ stateResult_t rvWeaponNailgun::State_Fire( const stateParms_t& parms ) {
 			if ( wsfl.zoom ) {				
 				Attack ( true, 1, spread, 0.0f, 1.0f );
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+				mouseReleased = false;
 			} else {
 				Attack ( false, 1, spread, 0.0f, 1.0f );
 				nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+				mouseReleased = false;
 			}
 			
 			// Play the exhaust effects
@@ -693,6 +701,9 @@ stateResult_t rvWeaponNailgun::State_Fire( const stateParms_t& parms ) {
 			return SRESULT_WAIT;
 			
 		case STAGE_DONE:
+			if (!wsfl.attack) {
+				mouseReleased = true;
+			}
 			if ( clipSize && wsfl.attack && !wsfl.lowerWeapon && !wsfl.reload ) {
 				PlayCycle ( ANIMCHANNEL_LEGS, "spinempty", 4 );
 				return SRESULT_STAGE ( STAGE_SPINEMPTY );
