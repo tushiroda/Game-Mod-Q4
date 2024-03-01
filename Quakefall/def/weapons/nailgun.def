@@ -185,33 +185,6 @@ entityDef weapon_nailgun
 	"net_syncPhysics"			"1"
 }
 
-entityDef weapon_nailgun_mp
-{
-	"inherit"				"weapon_nailgun"
-	"clipsize"				"0"
-	"def_mod3"				""
-	"hidesurface"				"models/weapons/nailgun_mod_ammo"
-	"editor_ignore"				"1"
-	"inv_icon"				"gfx/guis/hud/icons/item_nailgun_colored.tga"
-	"mtr_simple_icon"			"simpleicons/item_nailgun_colored.tga"
-	"simple_icon_scale"			"32.0"
-	"model"						"models/weapons/nailgun/w_ng_mp.lwo"
-	"triggerSize"				"32"
-	
-	"muzzle_kick_time"			"0"
-	"muzzle_kick_maxtime"			"0"
-	"muzzle_kick_angles"			"0 0 0"
-	"muzzle_kick_offset"			"0 0 0"
-	"recoilTime"				"0"
-	"recoilAngles"				"0 0 0"
-	
-	"respawn_Team DM"			"30"
-	"respawn_Tourney"			"15"
-	
-	// played when you touch a weapon you can't acquire, i.e. weaponStay in MP
-	"snd_noAcquire"			"pickup_weaponstay"
-}
-
 entityDef moveable_item_nailgun
 {
 	"inherit"					"weapon_nailgun"
@@ -328,9 +301,8 @@ entityDef wpmod_nailgun_power
 	"mod_showsurface2"			"models/weapons/nailgun_mod_ammo"
 	"mod_hidesurface"			"models/weapons/nailgun_clip"
 
-	"fireRate"					".12"
-	"drumSpeed"					"1.25"
-	"clipSize"					"100"
+	"clipSize"					"8"
+	"bounce"					"1"
 }
 
 entityDef wpmod_nailgun_seek
@@ -364,7 +336,7 @@ entityDef weaponmod_nailgun_power
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"
 	"inv_weaponmod"				"wpmod_nailgun_power"
-	"inv_ammo_nailgun"			"100"
+	"inv_ammo_nailgun"			"2"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_nailgun.tga"
 	"inv_name"					"#str_107436"
@@ -384,7 +356,7 @@ entityDef weaponmod_nailgun_seek
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"
 	"inv_weaponmod"				"wpmod_nailgun_seek"
-	"inv_ammo_nailgun"			"100"
+	"inv_ammo_nailgun"			"2"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_nailgun.tga"
 	"inv_name"					"#str_107438"
@@ -421,13 +393,13 @@ entityDef projectile_nail
 	"health"					"0"
 	"speed"						"5000"
 	"gravity"					"0"
-	"fuse"						"4"
+	"fuse"						"0.3"
 								
-	"detonate_on_fuse"			"1"
+	"detonate_on_fuse"			"0"
 	"detonate_on_death"			"0"
-	"detonate_on_world"			"1"
+	"detonate_on_world"			"0"
 	"detonate_on_actor"			"1"
-	"detonate_on_bounce"		"1"
+	"detonate_on_bounce"		"0"
 																
 	"decal_size"				"8"
 

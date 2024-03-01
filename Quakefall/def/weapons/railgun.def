@@ -332,7 +332,7 @@ entityDef weaponmod_railgun_penetrate
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"
 	"inv_weaponmod"				"wpmod_railgun_penetrate"
-	"inv_ammo_railgun"			"20"
+	"inv_ammo_railgun"			"3"
 	"inv_item"				"1"
 	"inv_icon"				"gfx/guis/hud/icons/item_railgun.tga"
 	"inv_name"				"#str_107439"
@@ -433,7 +433,7 @@ entityDef hitscan_railgun_penetrate
 
 entityDef damage_railgun 
 {
-	"damage"					"125"
+	"damage"					"175"
 	"push"						"500"
 	"knockback"					"100"
 	"gib"						"1"
@@ -451,10 +451,4 @@ entityDef damage_railgun
 	"bleed"						"1"
 
 	"pain"						"concussive"
-}
-
-entityDef damage_railgun_mp 
-{
-	"inherit"					"damage_railgun"
-	"damage"					"90"
 }

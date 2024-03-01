@@ -448,7 +448,7 @@ void rvGameState::NewState( mpGameState_t newState ) {
 				player->ResetCash();
 				// If the buy menu is up during a server restart,
 				// make sure to refresh it.
-				gameLocal.mpGame.RedrawLocalBuyMenu();
+				gameLocal.RedrawLocalBuyMenu();
 			}
 
 			if ( gameLocal.mpGame.IsBuyingAllowedInTheCurrentGameMode() )

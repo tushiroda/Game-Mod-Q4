@@ -1616,7 +1616,7 @@ void idGameLocal::MapRestart( int instance ) {
 
 		SetGameType();
 
-		mpGame.isBuyingAllowedRightNow = false;
+		mpGame.isBuyingAllowedRightNow = true;
 
 		if ( i != newInfo.GetNumKeyVals() ) {
 			gameLocal.sessionCommand = "nextMap";
@@ -3966,11 +3966,60 @@ void idGameLocal::UpdatePlayerPostMainMenu()	{
 idGameLocal::StartMenu
 ================
 */
-idUserInterface* idGameLocal::StartMenu( void ) {
-	if ( !isMultiplayer ) {
+idUserInterface* idGameLocal::StartMenu(void) {
+	if (mainGui == NULL) {
 		return NULL;
 	}
-	return mpGame.StartMenu();
+
+	int i, j;
+
+	if (currentMenu) {
+		currentMenu = 0;
+		cvarSystem->SetCVarBool("ui_chat", false);
+	}
+	else {
+		if (nextMenu >= 2) {
+			currentMenu = nextMenu;
+		}
+		else {
+			// for default and explicit
+			currentMenu = 1;
+		}
+		cvarSystem->SetCVarBool("ui_chat", true);
+	}
+
+	if (gameLocal.GetLocalPlayer()) {
+		gameLocal.GetLocalPlayer()->disableHud = true;
+	}
+
+	nextMenu = 0;
+	if (currentMenu == 4) {
+		//if( mpClientGameState.gameState.currentState == COUNTDOWN ) {
+		player = gameLocal.GetLocalPlayer();
+		buyMenu->SetStateString("field_credits", va("%i", (int)player->buyMenuCash));
+		buyMenu->SetStateInt("price_shotgun", player->GetItemCost("weapon_shotgun"));
+		buyMenu->SetStateInt("price_hyperblaster", player->GetItemCost("weapon_hyperblaster"));
+		buyMenu->SetStateInt("price_grenadelauncher", player->GetItemCost("weapon_grenadelauncher"));
+		buyMenu->SetStateInt("price_nailgun", player->GetItemCost("weapon_nailgun"));
+		buyMenu->SetStateInt("price_rocketlauncher", player->GetItemCost("weapon_rocketlauncher"));
+		buyMenu->SetStateInt("price_railgun", player->GetItemCost("weapon_railgun"));
+		buyMenu->SetStateInt("price_lightninggun", player->GetItemCost("weapon_lightninggun"));
+		//			buyMenu->SetStateInt( "price_dmg", player->GetItemCost( "weapon_dmg" ) );
+		buyMenu->SetStateInt("price_napalmgun", player->GetItemCost("weapon_napalmgun"));
+
+		buyMenu->SetStateInt("price_lightarmor", player->GetItemCost("item_armor_small"));
+		buyMenu->SetStateInt("price_heavyarmor", player->GetItemCost("item_armor_large"));
+		buyMenu->SetStateInt("price_ammorefill", player->GetItemCost("ammorefill"));
+
+		buyMenu->SetStateInt("price_special0", player->GetItemCost("ammo_regen"));
+		buyMenu->SetStateInt("price_special1", player->GetItemCost("health_regen"));
+		buyMenu->SetStateInt("price_special2", player->GetItemCost("damage_boost"));
+		SetupBuyMenuItems();
+		buyMenu->Activate(true, gameLocal.time);
+		return buyMenu;
+		//}
+// RITUAL END
+	}
 }
 
 /*
@@ -8506,3 +8555,65 @@ void operator delete[]( void *p ) {
 #endif	// #else #ifdef ID_DEBUG_MEMORY
 #endif	// #if defined(ID_REDIRECT_NEWDELETE) || defined(_RV_MEM_SYS_SUPPORT)
 // RAVEN END
+
+
+//change: i hope this lets me buy
+idUserInterface* buyMenu;				// buy menu
+
+void idGameLocal::SetupBuyMenuItems()
+{
+	player = gameLocal.GetLocalPlayer();
+	if (!player)
+		return;
+
+	buyMenu->SetStateInt("buyStatus_shotgun", player->ItemBuyStatus("weapon_shotgun"));
+	buyMenu->SetStateInt("buyStatus_hyperblaster", player->ItemBuyStatus("weapon_hyperblaster"));
+	buyMenu->SetStateInt("buyStatus_grenadelauncher", player->ItemBuyStatus("weapon_grenadelauncher"));
+	buyMenu->SetStateInt("buyStatus_nailgun", player->ItemBuyStatus("weapon_nailgun"));
+	buyMenu->SetStateInt("buyStatus_rocketlauncher", player->ItemBuyStatus("weapon_rocketlauncher"));
+	buyMenu->SetStateInt("buyStatus_railgun", player->ItemBuyStatus("weapon_railgun"));
+	buyMenu->SetStateInt("buyStatus_lightninggun", player->ItemBuyStatus("weapon_lightninggun"));
+	//	buyMenu->SetStateInt( "buyStatus_dmg", player->ItemBuyStatus( "weapon_dmg" ) );
+	buyMenu->SetStateInt("buyStatus_napalmgun", player->ItemBuyStatus("weapon_napalmgun"));
+
+	buyMenu->SetStateInt("buyStatus_lightarmor", player->ItemBuyStatus("item_armor_small"));
+	buyMenu->SetStateInt("buyStatus_heavyarmor", player->ItemBuyStatus("item_armor_large"));
+	buyMenu->SetStateInt("buyStatus_ammorefill", player->ItemBuyStatus("ammorefill"));
+
+	buyMenu->SetStateInt("buyStatus_special0", player->ItemBuyStatus("ammo_regen"));
+	buyMenu->SetStateInt("buyStatus_special1", player->ItemBuyStatus("health_regen"));
+	buyMenu->SetStateInt("buyStatus_special2", player->ItemBuyStatus("damage_boost"));
+
+	buyMenu->SetStateInt("playerTeam", player->team);
+
+	if (player->weapon)
+		buyMenu->SetStateString("ammoIcon", player->weapon->spawnArgs.GetString("inv_icon"));
+
+	buyMenu->SetStateInt("player_weapon", player->GetCurrentWeapon());
+}
+
+void idGameLocal::OpenLocalBuyMenu( void )
+{
+	// Buy menu work in progress
+	//if ( gameLocal.mpGame.GetCurrentMenu() == 4 )
+	//{	
+	//		return;
+	//}
+
+
+	if (currentMenu == 4) {
+		return; // Already open
+	}
+
+	gameLocal.sessionCommand = "game_startmenu";
+	gameLocal.nextMenu = 4;
+}
+
+void idGameLocal::RedrawLocalBuyMenu(void)
+{
+	if (!buyMenu)
+		return;
+
+	SetupBuyMenuItems();
+	buyMenu->HandleNamedEvent("update_buymenu");
+}

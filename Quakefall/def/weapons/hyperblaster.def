@@ -235,7 +235,6 @@ model weapon_hyperblaster_world
 entityDef wpmod_hyperblaster_bounce1
 {
 	"weapon"					"weapon_hyperblaster"
-	"def_projectile"			"projectile_hyperblaster_bounce1"
 	"mod_showsurface"			"models/weapons/hyperblaster/battery2"
 	"mod_hidesurface"			"models/weapons/hyperblaster/battery3"
 }
@@ -251,7 +250,6 @@ entityDef weaponmod_hyperblaster_bounce1
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"
 	"inv_weaponmod"				"wpmod_hyperblaster_bounce1"
-	"inv_ammo_hyperblaster"		"40"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_hyperblaster.tga"
 	"inv_name"					"#str_107432"

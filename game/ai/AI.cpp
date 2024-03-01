@@ -1663,6 +1663,10 @@ void idAI::Killed( idEntity *inflictor, idEntity *attacker, int damage, const id
 
 		aiManager.AnnounceKill ( this, attacker, inflictor );
 		aiManager.AnnounceDeath ( this, attacker );
+
+		//change: make it so enemy deaths give you money
+		idPlayer* killer = static_cast<idPlayer*>(attacker);
+		killer->GiveCash(50);
    	}
 
 	if ( attacker && attacker->IsType( idActor::GetClassType() ) ) {
