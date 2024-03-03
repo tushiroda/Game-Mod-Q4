@@ -577,7 +577,7 @@ rvWeaponRocketLauncher::Frame_AddToClip
 ================
 */
 stateResult_t rvWeaponRocketLauncher::Frame_AddToClip ( const stateParms_t& parms ) {
-	AddToClip ( 1 );
+	AddToClip ( ClipSize() );
 	return SRESULT_OK;
 }
 

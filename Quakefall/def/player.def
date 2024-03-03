@@ -695,7 +695,7 @@ entityDef player_marine
 	"weapon"						"weapon_blaster"
 	"current_weapon"					"0"
 
-	"pm_jumpheight"						"48"
+	"pm_jumpheight"						"64"
 	"pm_stepsize"						"16"
 	"pm_speed"						"160"  	//DOOM speed was 140
 	"pm_walkspeed"						"80"
@@ -714,7 +714,7 @@ entityDef player_marine
 	"pm_normalviewheight"					"68"
 	"pm_deadheight"						"20"
 	"pm_deadviewheight"					"10"
-	"pm_crouchrate"						"0.87"
+	"pm_crouchrate"						"0.95"
 	"pm_bboxwidth"						"32"
 	"pm_modelview"						"0"			// 0 == normal, 1 == view inside model, 2 == view inside model when dead
 	"pain_delay"						"0.5"		// how long to wait before playing pain sound
@@ -730,26 +730,26 @@ entityDef player_marine
 
 	// ammo
 	"ammo_railgun"						"0"
-	"ammo_machinegun"					"0"
-	"ammo_nailgun"						"0"
+	"ammo_machinegun"					"48"
+	"ammo_nailgun"						"8"
 	"ammo_blaster"						"-1"
-	"ammo_shotgun"						"0"
-	"ammo_hyperblaster"					"0"
-	"ammo_rocketlauncher"					"0"
-	"ammo_grenadelauncher"					"0"
+	"ammo_shotgun"						"8"
+	"ammo_hyperblaster"					"40"
+	"ammo_rocketlauncher"					"20"
+	"ammo_grenadelauncher"					"8"
 	"ammo_lightninggun"					"0"
 	"ammo_none"						"-1"
 
 	"max_ammo_blaster"					"-1"
 	"max_ammo_railgun"					"50"
-	"max_ammo_machinegun"					"300"
-	"max_ammo_nailgun"					"300"
-	"max_ammo_shotgun"					"50"
-	"max_ammo_hyperblaster"					"400"
-	"max_ammo_napalmgun"					"40"
-	"max_ammo_rocketlauncher"				"40"
-	"max_ammo_grenadelauncher"				"50"
-	"max_ammo_lightninggun"					"400"
+	"max_ammo_machinegun"				"48"
+	"max_ammo_nailgun"					"8"
+	"max_ammo_shotgun"					"8"
+	"max_ammo_hyperblaster"				"40"
+	"max_ammo_napalmgun"				"40"
+	"max_ammo_rocketlauncher"			"25"
+	"max_ammo_grenadelauncher"			"8"
+	"max_ammo_lightninggun"				"400"
 	"max_ammo_dmg"						"25"
 	"max_ammo_none"						"-1"
 

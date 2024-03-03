@@ -302,7 +302,7 @@ entityDef wpmod_nailgun_power
 	"mod_hidesurface"			"models/weapons/nailgun_clip"
 
 	"clipSize"					"8"
-	"bounce"					"1"
+	"0.8"
 }
 
 entityDef wpmod_nailgun_seek
@@ -343,6 +343,8 @@ entityDef weaponmod_nailgun_power
 	"model"						"models/items/ammo/ammo_box.lwo"
 
 	"net_syncPhysics"			"1"
+
+	"inv_name"					"Wingman Mag Extension + Ricochet"
 }
 
 entityDef weaponmod_nailgun_seek
@@ -363,11 +365,6 @@ entityDef weaponmod_nailgun_seek
 	"model"						"models/items/ammo/ammo_box.lwo"
 
 	"net_syncPhysics"			"1"
-}
-
-entityDef weaponmod_nailgun_rof
-{
-	"inherit"					"weaponmod_nailgun_power"
 }
 
 entityDef weaponmod_nailgun_ammo
@@ -453,7 +450,7 @@ entityDef projectile_nail_seek
 
 entityDef damage_nailDirect 
 {
-	"damage"					"70"
+	"damage"					"65"
 //	"push"						"600"
 	"gib"						"0"
 

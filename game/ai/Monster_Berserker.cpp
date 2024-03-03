@@ -3,7 +3,6 @@
 #pragma hdrstop
 
 #include "../Game_local.h"
-#include <random>
 
 extern const char* aiActionStatusString [ rvAIAction::STATUS_MAX ];
 
@@ -458,9 +457,27 @@ stateResult_t rvMonsterBerserker::State_Killed	( const stateParms_t& parms ) {
 	StopEffect ( "fx_charge_up" );
 	StopEffect ( "fx_ambient_electricity" );
 	StopEffect ( "fx_ambient_electricity_mace" );
+	
+	//change: make enemy death drop a random upgrade
+	int r = rand() % 5;
 
-
-	Cmd_Sp(idCmdArgs("spawn monster_berserker", true));
+	switch (r) {
+	case 0:
+		Cmd_Sp(idCmdArgs("spawn weaponmod_hyperblaster_bounce1", true));
+		break;
+	case 1:
+		Cmd_Sp(idCmdArgs("spawn weaponmod_nailgun_power", true));
+		break;
+	case 2:
+		Cmd_Sp(idCmdArgs("spawn weaponmod_shotgun_ammo", true));
+		break;
+	case 3:
+		Cmd_Sp(idCmdArgs("spawn weaponmod_machinegun_ammo", true));
+		break;
+	case 4:
+		Cmd_Sp(idCmdArgs("spawn weaponmod_rocketlauncher_homing", true));
+		break;
+	}
 
 	return idAI::State_Killed ( parms );
 }

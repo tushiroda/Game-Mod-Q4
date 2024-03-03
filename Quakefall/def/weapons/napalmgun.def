@@ -368,7 +368,7 @@ entityDef damage_napalmDirect
 	"damage"					"27"
 	"gib"						"0"
 	"knockback"					"60"
-	"deathPush"					"1000"
+	"deathPush"					"100"
 	"deathPushMin"				"3000 2000"
 	"deathPushMax"				"5000 3000"
 }

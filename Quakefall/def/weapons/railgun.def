@@ -167,35 +167,6 @@ entityDef weapon_railgun
 	"net_syncPhysics"			"1"
 }
 
-entityDef weapon_railgun_mp
-{
-	"inherit"				"weapon_railgun"
-	"model_view" 				"weapon_railgun_view_mp"
-	"editor_ignore"				"1"
-	"clipsize"				"0"
-	"fireRate"				"1.5"
-	"inv_icon"				"gfx/guis/hud/icons/item_railgun_colored.tga"
-	"mtr_simple_icon"		"simpleicons/item_railgun_colored.tga"
-	"simple_icon_scale"			"32.0"
-	"triggerSize"				"32"
-	
-	"muzzle_kick_time"			"0"
-	"muzzle_kick_maxtime"			"0"
-	"muzzle_kick_angles"			"0 0 0"
-	"muzzle_kick_offset"			"0 0 0"
-	"recoilTime"				"0"
-	"recoilAngles"				"0 0 0"
-	"muzzleTint"				"1"
-	
-	"respawn_Team DM"			"30"
-	"respawn_Tourney"			"15"
-	
-	// played when you touch a weapon you can't acquire, i.e. weaponStay in MP
-	"snd_noAcquire"			"pickup_weaponstay"
-
-	"inv_start_ammo_railgun"		"7"
-}
-
 entityDef moveable_item_railgun
 {
 	"inherit"					"weapon_railgun"
@@ -312,35 +283,6 @@ model weapon_railgun_world
 // Mods
 //--------------------------------------------------------------------------------------------------------------------
 
-entityDef wpmod_railgun_penetrate
-{
-	"mod_showsurface"			"models/weapons/railgun/rg_mod"	
-	"def_hitscan"				"hitscan_railgun_penetrate"
-
-	"weapon"					"weapon_railgun"
-}
-
-entityDef weaponmod_railgun_penetrate
-{
-	"editor_color"				".3 .3 1"
-	"editor_mins"				"-16 -16 0"
-	"editor_maxs"				"16 16 32"
-
-	"editor_menu"				"pickup"
-	"editor_usage"				"Railgun penetrate mod"
-
-	"spawnclass"				"idItem"
-	"size"						"32 32 32"
-	"inv_weaponmod"				"wpmod_railgun_penetrate"
-	"inv_ammo_railgun"			"3"
-	"inv_item"				"1"
-	"inv_icon"				"gfx/guis/hud/icons/item_railgun.tga"
-	"inv_name"				"#str_107439"
-
-	"model"					"models/items/ammo/ammo_box.lwo"
-
-	"net_syncPhysics"			"1"
-}
 
 //--------------------------------------------------------------------------------------------------------------------
 // Hitscan
@@ -374,38 +316,6 @@ entityDef hitscan_railgun
 	"fxOriginOffset"			"0 -15 10"
 }
 
-entityDef hitscan_railgun_mp
-{
-	// stupid inherit doesn't work here?
-	"range"						"40000"
-
-	"push"						"40000"
-	
-	"def_damage"				"damage_railgun"
-		
-	"fx_impact"				"effects/weapons/railgun/impact_default.fx"
-	"fx_impact_water"			"effects/ambient/splash_med.fx"
-	"fx_path"				"effects/weapons/railgun/trail.fx"
-	"fx_path_mp_low"				"effects/weapons/railgun/trail_mp_low.fx"
-	"fx_impact_bpglass"			"effects/weapons/railgun/impact_bpglass.fx"
-	"fx_impact_glass"			"effects/weapons/railgun/impact_glass.fx"
-	"fx_impact_concrete"			"effects/weapons/railgun/impact_concrete.fx"
-	"fx_impact_rock"			"effects/weapons/railgun/impact_concrete.fx"	
-	"fx_impact_electronics"			"effects/weapons/railgun/impact_electronics.fx"
-	"fx_impact_flesh"			"effects/weapons/railgun/impact_flesh.fx"
-	"fx_impact_monstermetal"		"effects/weapons/railgun/impact_flesh.fx"
-	"fx_impact_mp"				"effects/weapons/railgun/impact_default_mp.fx"
-	"fx_impact_concrete_mp"			"effects/weapons/railgun/impact_default_mp.fx"
-	"fx_impact_rock_mp"			"effects/weapons/railgun/impact_default_mp.fx"
-	"fx_impact_glass_mp"			"effects/weapons/railgun/impact_default_mp.fx"
-	"fx_impact_bpglass_mp"			"effects/weapons/railgun/impact_default_mp.fx"
-	"fx_impact_electronics_mp"		"effects/weapons/railgun/impact_default_mp.fx"
-	"fx_path_mp"				"effects/weapons/railgun/trail_mp.fx"
-	"penetrate"				"1.0"
-	"fxOriginOffset"			"0 -15 10"
-	"hitscanTint"				"1"
-}
-
 entityDef hitscan_railgun_reflect_I
 {
 	"inherit"					"hitscan_railgun"
@@ -433,7 +343,7 @@ entityDef hitscan_railgun_penetrate
 
 entityDef damage_railgun 
 {
-	"damage"					"175"
+	"damage"					"140"
 	"push"						"500"
 	"knockback"					"100"
 	"gib"						"1"

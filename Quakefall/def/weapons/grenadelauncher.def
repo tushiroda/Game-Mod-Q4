@@ -74,14 +74,14 @@ entityDef weapon_grenadelauncher
 	"joint_view_barrel"			"barrel"
 	"joint_world_flash"			"muzzle_flash"
 
-	"fireRate"					".8"
+	"fireRate"					".5"
 	"spread"					"0"
 	
 	// the direction of projectile launches will be modified by this
 	"dirOffset"					"0 0 .2"
 	
 	"inv_weapon"				"weapon_grenadelauncher"
-	"inv_start_ammo_grenadelauncher"	"10"
+	"inv_start_ammo_grenadelauncher"	"8"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_grenade.tga"
 	"inv_name"					"#str_107403"	
@@ -124,13 +124,13 @@ entityDef weapon_grenadelauncher
 	"def_viewStyle"				"viewStyle_q3_grenadelauncher"
 	"def_viewStyle1"			"viewStyle_shouldered_grenadelauncher"
 	
-	"weaponAngleOffsetAverages" "10"
+	"weaponAngleOffsetAverages" "0"
 	"weaponAngleOffsetScale" 	".25"
 	"weaponAngleOffsetMax"		"5"
 	"weaponOffsetTime"			"600"
 	"weaponOffsetScale"			"0.002"
 
-//	"launchFromBarrel"			"1"
+//	"launchFromBarrel"			"0"
 	"foreshorten"				".55"
 
 	"net_syncPhysics"			"1"
@@ -244,21 +244,21 @@ entityDef projectile_grenade
 	"def_damage"				"damage_grenadeDirect"
 	"def_splash_damage"			"damage_grenadeSplash"
 																											
-	"speed"						"700"
+	"speed"						"1500"
 	"angular_velocity"			"-10 5 1"
 	"settle_duration"			"0.08"
 	
 	"linear_friction"			"0"
 	"angular_friction"			"0"
-	"contact_friction"			"10"
-	"bounce"					".65"
-	"gravity"					"1"
-	"fuse"						"2.5"
+	"contact_friction"			"100"
+	"bounce"					"0"
+	"gravity"					"2.3"
+	"fuse"						"0.5"
 								
 	"detonate_on_fuse"			"1"
 	"detonate_on_death"			"0"
 	"detonate_on_world"			"0"
-	"detonate_on_actor"			"1"
+	"detonate_on_actor"			"0"
 	"detonateTestGroundMaterial"	"1"
 								
 	"impact_gib"				"1"								
@@ -296,7 +296,7 @@ entityDef projectile_grenade
 
 entityDef damage_grenadeDirect 
 {
-	"damage"					"125"
+	"damage"					"45"
 	"gib"						"1"
 
 	"deathPush"					"200"
@@ -317,8 +317,8 @@ entityDef damage_grenadeDirect_mp
 
 entityDef damage_grenadeSplash 
 {
-	"damage"					"200"
-	"radius"					"250"
+	"damage"					"100"
+	"radius"					"150"
 	"knockback"					"100"
 	"push"						"10000"
 	"gib"						"0"

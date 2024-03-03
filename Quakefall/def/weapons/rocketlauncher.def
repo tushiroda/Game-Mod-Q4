@@ -70,14 +70,15 @@ entityDef weapon_rocketlauncher
 	"joint_world_flash"			"muzzle_flash"
 
 	"inv_weapon"				"weapon_rocketlauncher"
-	"inv_start_ammo_rocketlauncher"	"10"
+	"inv_start_ammo_rocketlauncher"	"21"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_rocket.tga"
 	"inv_name"					"#str_107409"	
 
-	"fireRate"					".8"
-	"reloadRate"				".8"
-	"spread"					"0"
+	"fireRate"					".05"
+	"reloadRate"				"2"
+	"spread"					"3.5"
+	"clipsize"					"20"
 
 	"ammoRegenStep"				"1"
 	"ammoRegenTime"				"1750"
@@ -85,7 +86,6 @@ entityDef weapon_rocketlauncher
 	"weaponname"				"Rocket Launcher"
 	"def_projectile"			"projectile_rocket"
 	"ammoType"					"ammo_rocketlauncher"
-	"clipSize"					"1"
 	"ammoRequired"				"1"
 	"gui"						"guis/weapons/rocketlauncher_ammo.gui"
 	"mtr_icon"					"gfx/guis/hud/icons/gun_rocketlauncher"
@@ -253,8 +253,7 @@ entityDef wpmod_rocketlauncher_burst
 	"lockSlowdown"			".25"
 	"lockAccelTime"			".5"
 
-	"clipSize"				"3"
-	"fireRate"				".3"
+	"clipSize"				"25"
 }
 
 entityDef wpmod_rocketlauncher_homing
@@ -271,9 +270,7 @@ entityDef wpmod_rocketlauncher_homing
 	"lockRange"				"10000"
 	"lockSlowdown"			".25"
 	"lockAccelTime"			".5"
-
-	"clipSize"				"3"
-	"fireRate"				".3"
+	"inv_name"					"SMR Mag Extension"
 }
 
 entityDef weaponmod_rocketlauncher_burst
@@ -287,7 +284,7 @@ entityDef weaponmod_rocketlauncher_burst
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"
 	"inv_weaponmod"				"wpmod_rocketlauncher_burst"
-	"inv_ammo_rocketlauncher"	"10"
+	"inv_ammo_rocketlauncher"	"5"
 	"inv_item"					"1"
 	"model"						"models/items/ammo/ammo_box.lwo"
 
@@ -305,7 +302,7 @@ entityDef weaponmod_rocketlauncher_homing
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"
 	"inv_weaponmod"				"wpmod_rocketlauncher_homing"
-	"inv_ammo_rocketlauncher"	"10"
+	"inv_ammo_rocketlauncher"	"5"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_rocket.tga"
 	"inv_name"					"#str_107440"
@@ -321,8 +318,8 @@ entityDef weaponmod_rocketlauncher_homing
 entityDef projectile_rocket
 {
 	"spawnclass"				"idProjectile"
-	"size"						"7 7 7"
-	"cone"						"2"
+	"size"						"0.1 0.1 0.1"
+	"cone"						"1"
 	"noshadows"					"1"
 	"clipmask_largeshot"		"1"
 								
@@ -330,7 +327,7 @@ entityDef projectile_rocket
 	"def_damage"				"damage_rocketDirect"
 	"def_splash_damage"			"damage_rocketSplash"
 																											
-	"speed"						"900"
+	"speed"						"1500"
 	"fuse"						"6"
 	"push"						"48000"
 	
@@ -391,8 +388,8 @@ entityDef projectile_rocket_homing
 
 entityDef damage_rocketDirect 
 {
-	"damage"					"150"
-	"push"						"45000"
+	"damage"					"40"
+	"push"						"0"
 	"gib"						"1"
 
 	"deathPush"					"200"
@@ -413,11 +410,10 @@ entityDef damage_rocketDirect_mp
 
 entityDef damage_rocketSplash 
 {
-	"damage"					"150"
-	"radius"					"180"
-	"knockback"					"100"
-	"push"						"10000"
-	"gib"						"0"
+	"damage"					"15"
+	"radius"					"80"
+	"knockback"					"50"
+	"gib"						"1"
 
 	"deathPush"					"100"
 	"deathPushMin"				"5000 6000"
