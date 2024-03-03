@@ -80,7 +80,7 @@ entityDef weapon_blaster
 	// Firing properties
 	"chargeTime"				"1.5"
 	"chargeDelay"				".1"
-	"chargeGlow"				"0 .8"
+	"chargeGlow"				"0.5 .8"
 	"fireRate"					".15"
 	"spread"					".2"
 
@@ -222,6 +222,31 @@ model weapon_blaster_world
 // Mods
 //-------------------------------------------------------------------------------------------------------------------0
 
+entityDef wpmod_blaster
+{
+	"def_hitscan"				"hitscan_railgun_penetrate"
+
+	"weapon"					"weapon_blaster"
+	"chargetime"				"0.8"
+}
+
+entityDef weaponmod_blaster
+{
+	"editor_menu"				"pickup"
+	"editor_usage"				"Charge Rifle Speedhack"
+
+	"spawnclass"				"idItem"
+	"size"						"32 32 32"
+	"inv_weaponmod"				"wpmod_blaster"
+	"inv_item"				"1"
+	"inv_icon"				"gfx/guis/hud/icons/item_railgun.tga"
+	"inv_name"				"Charge Rifle Speedhack"
+
+	"model"					"models/items/ammo/ammo_box.lwo"
+
+	"net_syncPhysics"			"1"
+}
+
 //--------------------------------------------------------------------------------------------------------------------
 // Projectile
 //-------------------------------------------------------------------------------------------------------------------0
@@ -258,7 +283,7 @@ entityDef projectile_blaster
 																
 	"def_damage"				"damage_blaster"
 								
-	"velocity"					"1500 0 0"
+	"velocity"					"2500 0 0"
 	"fuse"						"4"
 	"push"						"7500"
 								
@@ -312,7 +337,7 @@ entityDef projectile_blaster_charged
 entityDef damage_blaster
 {
 	"inherit"					"damage_bullet"
-	"damage"					"23"
+	"damage"					"24"
 
 	"fx_wound"					"effects/wounds/energy.fx"
 
@@ -324,15 +349,15 @@ entityDef damage_blaster
 entityDef damage_blaster_charged
 {
 	"inherit"					"damage_blaster"
-	"damage"					"50"
+	"damage"					"35"
 }
 
 entityDef damage_blastersplash_charged
 {
 	"inherit"					"damage_blaster"
 	
-	"damage"					"40"
+	"damage"					"10"
 	"radius"					"50"
 	"knockback"					"30"
-	"push"						"2500"
+	"push"						"50"
 }

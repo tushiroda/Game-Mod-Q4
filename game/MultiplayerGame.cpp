@@ -5097,9 +5097,8 @@ void idMultiplayerGame::UpdateHud( idUserInterface* _mphud ) {
 // RITUAL BEGIN
 // squirrel: Mode-agnostic buymenus
 	/// Set "credits" gui element
-	if( gameLocal.mpGame.IsBuyingAllowedInTheCurrentGameMode() ) {
 		int cash = 0;
-		idPlayer* localPlayer = gameLocal.GetLocalPlayer();
+		localPlayer = gameLocal.GetLocalPlayer();
 		if ( !localPlayer ) {
 			assert( gameLocal.GetDemoState() == DEMO_PLAYING && gameLocal.IsServerDemo() );
 			assert( gameLocal.GetDemoFollowClient() >= 0 );
@@ -5123,11 +5122,6 @@ void idMultiplayerGame::UpdateHud( idUserInterface* _mphud ) {
 		else {
 			_mphud->SetStateString("credits", va("%s %d", common->GetLocalizedString( "#str_122015" ), cash));
 		}
-	}
-	else
-	{
-		_mphud->SetStateString("credits", "");
-	}
 // RITUAL END
 
 
@@ -9066,8 +9060,10 @@ void idMultiplayerGame::OpenLocalBuyMenu( void )
 	//		return;
 	//}
 
-	if ( currentMenu == 4 )
+	if (currentMenu == 4) {
+		gameLocal.Printf("already open?");
 		return; // Already open
+	}
 
 	gameLocal.sessionCommand = "game_startmenu";
 	gameLocal.mpGame.nextMenu = 4;

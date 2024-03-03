@@ -80,7 +80,7 @@ entityDef weapon_shotgun
 	"joint_world_flash"			"muzzle_flash"
 
 	"fireRate"				"1"
-	"spread"				"7"
+	"spread"				"6"
 	"hitscans"				"8"
 
 	"inv_weapon"				"weapon_shotgun"
@@ -108,7 +108,7 @@ entityDef weapon_shotgun
 
 	"ejectOffset"				"6 -4 -3"
 
-	"recoilTime"				"600"
+	"recoilTime"				"800"
 	"recoilAngles"				"-.25 0 0"
 	
  	"def_mod1"				"wpmod_shotgun_ammo"
@@ -146,36 +146,6 @@ entityDef weapon_shotgun
 	"glightColor"				"1 0 0 1"
 
 	"net_syncPhysics"			"1"
-}
-
-entityDef weapon_shotgun_mp
-{
-	"inherit"				"weapon_shotgun"
-	"clipsize"				"0"
-	"hidesurface"				"models/weapons/shotgun/clip"
-	// q3 style spread
-	"shotgunSpreadStyle"			"1"
-	"spread"				"875"
-	"hitscans"				"11"
-	"editor_ignore"				"1"
-	"range"					"131072"
-	"fireRate"				"1.0"
-	"inv_icon"				"gfx/guis/hud/icons/item_shotgun_colored"
-	"mtr_simple_icon"			"simpleicons/item_shotgun_colored"
-	"simple_icon_scale"			"32.0"
-	"triggerSize"				"32"
-	
-	"muzzle_kick_time"			"0"
-	"muzzle_kick_maxtime"			"0"
-	"muzzle_kick_angles"			"0 0 0"
-	"muzzle_kick_offset"			"0 0 0"
-	"recoilTime"				"0"
-	"recoilAngles"				"0 0 0"
-	"respawn_Team DM"			"30"
-	"respawn_Tourney"			"15"
-	
-	// played when you touch a weapon you can't acquire, i.e. weaponStay in MP
-	"snd_noAcquire"			"pickup_weaponstay"
 }
 
 entityDef moveable_item_shotgun
@@ -280,7 +250,11 @@ entityDef wpmod_shotgun_ammo
 {
 	"weapon"				"weapon_shotgun"
 	"mod_showsurface"		"models/weapons/shotgun/clip"
-	"clipSize"				"10"
+	"clipSize"				"8"
+	"recoilTime"			"100"
+	"fireRate"				"0.5"
+	"spread"				"5"
+	"hitscans"				"8"
 }
 
 entityDef weaponmod_shotgun_ammo
@@ -294,11 +268,13 @@ entityDef weaponmod_shotgun_ammo
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"
 	"inv_weaponmod"				"wpmod_shotgun_ammo"
-	"inv_ammo_shotgun"			"32"
+	"inv_ammo_shotgun"			"4"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_shotgun.tga"
 	"inv_name"					"#str_107431"
 	"model"						"models/items/ammo/ammo_box.lwo"
+
+	"inv_name"					"Mastiff Spread + Mag Extension"
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -343,13 +319,6 @@ entityDef damage_pellet
 	"deathPush"					"100"
 	"deathPushMin"				"4000 500"
 	"deathPushMax"				"9000 600"
-}
-
-entityDef damage_pellet_mp
-{
-	"inherit"					"damage_pellet"
-	"knockback"					"10"
-	"damage"					"10"
 }
 
 //--------------------------------------------------------------------------------------------------------------------

@@ -92,8 +92,8 @@ entityDef weapon_machinegun
 	"inv_icon"					"gfx/guis/hud/icons/item_machinegun.tga"
 	"inv_name"					"#str_107406"
 
-	"fireRate"					".06"
-	"spread"					"2"
+	"fireRate"					".056"
+	"spread"					"4"
 
 	"mtr_crosshair"				"gfx/guis/crosshairs/crosshair_machinegun"
 	"def_hitscan"				"hitscan_bullet"
@@ -252,7 +252,9 @@ entityDef wpmod_machinegun_ammo
 	"mod_showsurface"			"models/weapons/machinegun/clip_large"
 	"mod_hidesurface"			"models/weapons/machinegun/clip_small"
 
-	"clipSize"					"80"
+	"clipSize"					"48"
+	"spread"					"1"
+	"def_hitscan"				"hitscan_blaster"
 }
 
 entityDef weaponmod_machinegun_ammo
@@ -267,12 +269,14 @@ entityDef weaponmod_machinegun_ammo
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"
 	"inv_weaponmod"				"wpmod_machinegun_ammo"
-	"inv_ammo_machinegun"		"120"
+	"inv_ammo_machinegun"		"8"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_machinegun.tga"
 	"inv_name"					"#str_107435"
 
 	"model"						"models/items/ammo/ammo_box.lwo"
+
+	"inv_name"					"R-97 Overcharge + Mag Extension"
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -380,8 +384,8 @@ entityDef hitscan_zoomed_bullet
 entityDef damage_machinegun
 {
 	"inherit"					"damage_bullet"
-	"damage"					"16"
-	"damage_flesh"				"16"
+	"damage"					"17"
+	"damage_flesh"				"17"
 
 	"deathPush"					"400"
 	"deathPushMin"				"3000 350"

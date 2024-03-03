@@ -371,7 +371,15 @@ stateResult_t rvWeaponBlaster::State_Charged ( const stateParms_t& parms ) {
 	enum {
 		CHARGED_INIT,
 		CHARGED_WAIT,
-	};	
+	};
+	//change: blaster immmediately fires after charged
+	StopSound(SND_CHANNEL_ITEM, false);
+	StartSound("snd_charge_loop", SND_CHANNEL_ITEM, 0, false, NULL);
+	StartSound("snd_charge_click", SND_CHANNEL_BODY, 0, false, NULL);
+	fireForced = true;
+	SetState("Fire", 0);
+	return SRESULT_DONE;
+
 	switch ( parms.stage ) {
 		case CHARGED_INIT:		
 			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, 1.0f  );

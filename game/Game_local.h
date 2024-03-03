@@ -446,6 +446,17 @@ public:
 
 							idGameLocal();
 
+							//change: added func?
+							virtual void OpenLocalBuyMenu(void);
+							int				currentMenu;			// 0 - none, 1 - mainGui, 2 - msgmodeGui
+							int				nextMenu;				// if 0, will do mainGui
+							idUserInterface* buyMenu;				// buy menu
+							virtual void SetupBuyMenuItems();
+							void idGameLocal::RedrawLocalBuyMenu(void);
+							idPlayer* player;
+							idUserInterface* mainGui;				// ready / nick / votes etc.
+
+
 // RAVEN BEGIN
 // jsinger: attempt to eliminate cross-DLL allocation issues
 #ifdef RV_UNIFIED_ALLOCATOR

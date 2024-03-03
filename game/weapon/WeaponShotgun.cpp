@@ -259,7 +259,6 @@ stateResult_t rvWeaponShotgun::State_Reload ( const stateParms_t& parms ) {
 				return SRESULT_DONE;
 			}
 			if ( AnimDone ( ANIMCHANNEL_ALL, 0 ) ) {
-				gameLocal.Printf("yo, shotgun reloaded here");
 				AddToClip( 1 );
 				return SRESULT_STAGE ( STAGE_RELOADLOOP );
 			}

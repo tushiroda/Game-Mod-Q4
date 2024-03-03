@@ -1,0 +1,4 @@
+"Autosave game/quakefall"
+"^:Map Start	^0game/quakefall"
+""
+nooverwrite

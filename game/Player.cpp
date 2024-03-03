@@ -1130,8 +1130,8 @@ idPlayer::idPlayer() {
 // squirrel: added DeadZone multiplayer mode
 	allowedToRespawn		= true;
 // squirrel: Mode-agnostic buymenus
-	inBuyZone				= false;
-	inBuyZonePrev			= false;
+	inBuyZone				= true;
+	inBuyZonePrev			= true;
 // RITUAL END
 	spectating				= false;
 	spectator				= 0;
@@ -2784,15 +2784,18 @@ when called here with spectating set to true, just place yourself and init
 void idPlayer::SpawnToPoint( const idVec3 &spawn_origin, const idAngles &spawn_angles ) {
 	idVec3 spec_origin;
 
+	gameLocal.Printf("before");
 	assert( !gameLocal.isClient );
+	gameLocal.Printf("after");
 
 // RITUAL BEGIN
 // squirrel: Mode-agnostic buymenus
-	if ( gameLocal.mpGame.IsBuyingAllowedInTheCurrentGameMode() ) {
+// 	   //change: carry over weapons?
+	//if ( gameLocal.mpGame.IsBuyingAllowedInTheCurrentGameMode() ) {
 		// Record previous weapons for later restoration
 		inventory.carryOverWeapons &= ~CARRYOVER_WEAPONS_MASK;
 		inventory.carryOverWeapons |= inventory.weapons;
-	}
+	//}
 // RITUAL END
 
 	respawning = true;
@@ -4266,8 +4269,8 @@ bool idPlayer::GiveItem( idItem *item ) {
 		hud->HandleNamedEvent ( "itemPickup" );
 	}
 //RITUAL BEGIN
-	if ( gameLocal.mpGame.IsBuyingAllowedInTheCurrentGameMode() )
-		gameLocal.mpGame.RedrawLocalBuyMenu();
+	//change:if ( gameLocal.mpGame.IsBuyingAllowedInTheCurrentGameMode() )
+		gameLocal.RedrawLocalBuyMenu();
 //RITUAL END
 
 	return gave;
@@ -8402,11 +8405,12 @@ bool idPlayer::AttemptToBuyItem( const char* itemName )
 	}
 
 	GiveStuffToPlayer( this, itemName, NULL );
-	gameLocal.mpGame.RedrawLocalBuyMenu();
+	gameLocal.RedrawLocalBuyMenu();
 	return true;
 }
 
 bool idPlayer::CanBuy( void ) {
+	return true;
 	bool ret = gameLocal.mpGame.IsBuyingAllowedRightNow();
 	if ( !ret ) {
 		return false;
@@ -9641,9 +9645,9 @@ void idPlayer::Think( void ) {
 	}
 
 	if ( !inBuyZonePrev )
-		inBuyZone = false;
+		inBuyZone = true;
 
-	inBuyZonePrev = false;
+	inBuyZonePrev = true;
 }
 
 /*
@@ -12484,7 +12488,7 @@ void idPlayer::ReadFromSnapshot( const idBitMsgDelta &msg ) {
 		int cash = msg.ReadLong();
 		if ( cash != (int)buyMenuCash ) {
 			buyMenuCash = (float)cash;
-			gameLocal.mpGame.RedrawLocalBuyMenu();
+			gameLocal.RedrawLocalBuyMenu();
 		}
 //RITUAL END
 	}
@@ -14007,8 +14011,8 @@ void idPlayer::GiveCash( float cashDeltaAmount )
 {
 	//int minCash = gameLocal.mpGame.mpBuyingManager.GetIntValueForKey( "playerMinCash", 0 );
 	//int maxCash = gameLocal.mpGame.mpBuyingManager.GetIntValueForKey( "playerMaxCash", 0 );
-	float minCash = (float) gameLocal.serverInfo.GetInt("si_buyModeMinCredits");
-	float maxCash = (float) gameLocal.serverInfo.GetInt("si_buyModeMaxCredits");
+	float minCash = 0;//(float) gameLocal.serverInfo.GetInt("si_buyModeMinCredits");
+	float maxCash = 9999;//(float) gameLocal.serverInfo.GetInt("si_buyModeMaxCredits");
 
 	float oldCash = buyMenuCash;
 	buyMenuCash += cashDeltaAmount;
@@ -14016,7 +14020,7 @@ void idPlayer::GiveCash( float cashDeltaAmount )
 
 	if( (int)buyMenuCash != (int)oldCash )
 	{
-		gameLocal.mpGame.RedrawLocalBuyMenu();
+		gameLocal.RedrawLocalBuyMenu();
 	}
 
 	if( (int)buyMenuCash > (int)oldCash )

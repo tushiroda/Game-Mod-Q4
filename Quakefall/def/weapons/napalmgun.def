@@ -250,7 +250,7 @@ model weapon_napalmgun_world
 entityDef projectile_napalm
 {
 	"spawnclass"				"idProjectile"
-	"size"						"3 3 3"
+	"size"						"1 1 1"
 	"cone"						"2"
 	"noshadows"					"1"
 	"clipmask_largeshot"		"1"
@@ -258,7 +258,6 @@ entityDef projectile_napalm
 
 	"model"						"models/weapons/napalmgun/flame_gun_glob.ase"
 	"def_damage"				"damage_napalmDirect"
-	"def_splash_damage"			"damage_napalmSplash"	
 
 	"speed"						"1600"
 	"angular_velocity"			"-10 5 1"
@@ -269,11 +268,11 @@ entityDef projectile_napalm
 	"contact_friction"			"10"
 	//"bounce"					".65"
 	"gravity"					"0.1"
-	"fuse"						"0"
+	"fuse"						"0.6"
 								
-	"detonate_on_fuse"			"1"
+	"detonate_on_fuse"			"0"
 	"detonate_on_death"			"0"
-	"detonate_on_world"			"1"
+	"detonate_on_world"			"0"
 	"detonate_on_actor"			"1"
 								
 	"impact_gib"				"1"
@@ -287,16 +286,16 @@ entityDef projectile_napalm
 	"fx_fly_mp_low"				"effects/weapons/napalmgun/flyburn_mp_low.fx"
 	"fx_impact_water"			"effects/ambient/splash_med.fx"
 
-	"snd_ricochet"				"weapon_napalmgun_bounce"
+	//"snd_ricochet"				"weapon_napalmgun_bounce"
 	
 	// These are the impact effects and the detonation effects.
 	//"fx_detonate"				"effects/weapons/napalmgun/detonate.fx"
 	//"fx_impact"				"effects/weapons/napalmgun/areaburn"
 	//"fx_impact_actor"			"effects/weapons/napalmgun/actorimpact"
 	
-	"fx_impact_actor"			"effects/weapons/rocketlauncher/detonate.fx"
-	"fx_impact"					"effects/weapons/napalmgun/impact.fx"
-	"fx_detonate"					"effects/weapons/napalmgun/detonate.fx"
+	//"fx_impact_actor"			"effects/weapons/rocketlauncher/detonate.fx"
+	//"fx_impact"					"effects/weapons/napalmgun/impact.fx"
+	//"fx_detonate"					"effects/weapons/napalmgun/detonate.fx"
 
 	//"delay_residual"				"1.5"
 	//"residual_time"					"6"
@@ -329,11 +328,11 @@ entityDef impact_napalm_projectile
 
 	"model"						"models/weapons/napalmgun/flame_gun_globsmall.ase"
 	
-	"fuse"						"6.0"
-	"fuse_random"				"0.4"
-	"speed"						"1"
-	"gravity"					"1.2"
-	"remove_time"				"100"
+	"fuse"						"0.1"
+	"fuse_random"				"0.0"
+	"speed"						"5"
+	"gravity"					"0"
+	"remove_time"				"0"
 
 	"angular_velocity"			"-10 5 1"
 
@@ -366,10 +365,10 @@ entityDef impact_napalm_projectile
 
 entityDef damage_napalmDirect 
 {
-	"damage"					"30"
+	"damage"					"27"
 	"gib"						"0"
 	"knockback"					"60"
-	"deathPush"					"1000"
+	"deathPush"					"100"
 	"deathPushMin"				"3000 2000"
 	"deathPushMax"				"5000 3000"
 }

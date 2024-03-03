@@ -79,7 +79,7 @@ entityDef weapon_hyperblaster
 	"crosshairOffsetX"			"0"
 	"crosshairOffsetY"			"0"
 
-	"fireRate"					".158"
+	"fireRate"					".123"
 	"spread"					"0.2"
 	"spread_mp"					"0"
 
@@ -98,7 +98,7 @@ entityDef weapon_hyperblaster
 	"gui"						"guis/weapons/hyperblaster_ammo.gui"
 	"mtr_icon"					"gfx/guis/hud/icons/gun_hyperblaster"
 	
-	"muzzle_kick_time"			"0.1"
+	"muzzle_kick_time"			"0.13"
 	"muzzle_kick_maxtime"		"0.15"
 	"muzzle_kick_angles"		"-1 0 0"
 	"muzzle_kick_offset"		"1 .15 0"
@@ -235,9 +235,10 @@ model weapon_hyperblaster_world
 entityDef wpmod_hyperblaster_bounce1
 {
 	"weapon"					"weapon_hyperblaster"
-	"def_projectile"			"projectile_hyperblaster_bounce1"
 	"mod_showsurface"			"models/weapons/hyperblaster/battery2"
 	"mod_hidesurface"			"models/weapons/hyperblaster/battery3"
+	"clipsize"					"40"
+	"def_projectile"			"projectile_blaster_charged"
 }
 
 entityDef weaponmod_hyperblaster_bounce1
@@ -251,18 +252,21 @@ entityDef weaponmod_hyperblaster_bounce1
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"
 	"inv_weaponmod"				"wpmod_hyperblaster_bounce1"
-	"inv_ammo_hyperblaster"		"40"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_hyperblaster.tga"
 	"inv_name"					"#str_107432"
 	"model"						"models/items/ammo/ammo_box.lwo"
 
 	"net_syncPhysics"			"1"
+	"inv_ammo_hyperblaster"		"7"
+
+	"inv_name"					"Volt Overcharge + Mag Extension"
 }
 
 entityDef weaponmod_hyperblaster_bounce2
 {
 	"inherit"					"weaponmod_hyperblaster_bounce1"
+	"inv_ammo_hyperblaster"		"7"
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -279,11 +283,6 @@ entityDef damage_hyperblaster
 	"deathPushMax"				"5000 500"
 }
 
-entityDef damage_hyperblaster_mp
-{
-	"inherit"				"damage_hyperblaster"
-	"knockback"				"14"
-}
 
 entityDef damage_hyperblaster_splash
 {
@@ -296,12 +295,6 @@ entityDef damage_hyperblaster_splash
 	"deathPush"					"100"
 	"deathPushMin"				"2000 350"
 	"deathPushMax"				"4000 500"
-}
-
-entityDef damage_hyperblaster_splash_mp
-{
-	"inherit"				"damage_hyperblaster_splash"
-	"knockback" 				"10"
 }
 
 entityDef projectile_hyperblaster
