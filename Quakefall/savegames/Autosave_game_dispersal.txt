@@ -1,4 +1,0 @@
-"Autosave game/dispersal"
-"^:Map Start	^0DISPERSAL FACILITY"
-"gfx/guis/loadscreens/dispersal"
-nooverwrite

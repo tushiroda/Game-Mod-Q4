@@ -1613,6 +1613,12 @@ void idAI::Killed( idEntity *inflictor, idEntity *attacker, int damage, const id
 	idAngles			ang;
 	const char*			modelDeath;
 	const idKeyValue*	kv;
+
+	if (attacker->IsType(idPlayer::GetClassType())) {
+		//change: make it so enemy deaths give you money
+		idPlayer* killer = static_cast<idPlayer*>(attacker);
+		killer->GiveCash(3);
+	}
 	
 	if ( g_debugDamage.GetBool() ) {
 		gameLocal.Printf( "Damage: joint: '%s', zone '%s'\n", animator.GetJointName( ( jointHandle_t )location ), 
@@ -1663,10 +1669,6 @@ void idAI::Killed( idEntity *inflictor, idEntity *attacker, int damage, const id
 
 		aiManager.AnnounceKill ( this, attacker, inflictor );
 		aiManager.AnnounceDeath ( this, attacker );
-
-		//change: make it so enemy deaths give you money
-		idPlayer* killer = static_cast<idPlayer*>(attacker);
-		killer->GiveCash(50);
    	}
 
 	if ( attacker && attacker->IsType( idActor::GetClassType() ) ) {

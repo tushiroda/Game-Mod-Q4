@@ -4,6 +4,8 @@ windowDef Desktop
 	visible	1
 	nocursor	1
 	menugui	0
+	)	)
+	/	2
 	definevec4	"ws_on"	1,0.5,0,1
 	definevec4	"ws_off"	0.658,0.639,0.376,0.6
 	definevec4	"ws_glowon"	0.7,0.8,0.5,1
@@ -22,7 +24,7 @@ windowDef Desktop
 	float	"hidden"	0
 	float	"deathCount"	0
 	definefloat	"showGunInfo"	1
-	definefloat	"switchLeft"	(640-((gui::weaponcount*30)-2))/2
+	definefloat	"switchLeft"	(640-((gui::weaponcount*30)-2
 
 	onInit {
 		namedEvent "updateHealth";
@@ -569,7 +571,7 @@ windowDef Desktop
 	}
 	windowDef p_ammo
 	{
-		rect	100,0,640,480
+		rect	0,0,640,480
 		visible	("gui::mp" == 0 )
 		windowDef ammo_backbar
 		{
@@ -577,7 +579,7 @@ windowDef Desktop
 			visible	1
 			background	"gfx/guis/hud/backbar"
 			matcolor	0,0,0,0.5
-			shear	0,-.22
+			shear	0,-.0
 		}
 		windowDef ammo_valbar
 		{
@@ -585,20 +587,20 @@ windowDef Desktop
 			visible	1
 			background	"gfx/guis/hud/valbar"
 			matcolor	0.701,0.815,0.431,0.2
-			shear	0,-.22
+			shear	0,-.0
 		}
 		windowDef p_ammo_val
 		{
 			rect	133 - ( "gui::player_ammopct" * 115 ),420,115,59
 			visible	1
-			shear	0,-.22
+			shear	0,-.0
 			windowDef ammo_val
 			{
 				rect	-120 + ( "gui::player_ammopct" * 115 ),0,125,59
 				visible	1
 				background	"gfx/guis/hud/valbar"
 				matcolor	0.701,0.815,0.431,0.35
-				shear	0,-.22
+				shear	0,-.0
 			}
 		}
 		windowDef current_gun
@@ -651,7 +653,7 @@ windowDef Desktop
 	}
 	windowDef p_health
 	{
-		rect	303,0,640,480
+		rect	198,0,640,480
 		visible	("gui::mp" == 0 )
 		windowDef health_backbar
 		{
@@ -735,7 +737,7 @@ windowDef Desktop
 	}
 	windowDef p_armor
 	{
-		rect	179,-55,640,480
+		rect	74,-54,640,480
 		visible	("gui::player_armor" > 0 && "gui::mp" == 0 )
 		windowDef armor_backbar
 		{
@@ -2045,7 +2047,7 @@ windowDef Desktop
 	}
 	windowDef p_titan_meter
 	{
-		rect	0,0,640,480
+		rect	189,-35,640,480
 		visible	1
 		windowDef titan_backbar
 		{
@@ -2053,7 +2055,8 @@ windowDef Desktop
 			visible	1
 			background	"gfx/guis/hud/backbar"
 			matcolor	0,0,0,0.5
-			shear	0,-.22
+			shear	0,-.0
+			rotate	-90
 		}
 		windowDef titan_valbar
 		{
@@ -2061,49 +2064,35 @@ windowDef Desktop
 			visible	1
 			background	"gfx/guis/hud/arbar"
 			matcolor	0.698,0.811,0.427,0.2
-			shear	0,-.22
+			shear	0,-.0
+			rotate	-90
 		}
 		windowDef p_titan_val
 		{
-			rect	446 - ( "gui::titan_meter_pct" * 115 ),420,115,59
+			rect	445 - ( "gui::titan_meter_pct" * 1.15 ),420,115,59
 			visible	1
-			shear	0,-.22
+			shear	0,-.0
+			rotate	-90
 			windowDef titan_val
 			{
-				rect	-119 + ( "gui::titan_meter_pct" * 115 ),0,125,59
+				rect	-120 + ( "gui::titan_meter_pct" * 1.15 ),0,125,59
 				visible	1
 				background	"gfx/guis/hud/arbar"
 				matcolor	0.698,0.811,0.427,0.349
-				shear	0,-.22
+				shear	0,-.0
+				rotate	-90
 			}
 		}
-		windowDef armor_amount
+		windowDef meter_pct
 		{
-			rect	392,429,52,26
+			rect	370,366,40,18
 			visible	1
 			forecolor	0.866,0.921,0.764,1
-			text	"gui::player_armor"
-			textscale	0.5
+			text	"gui::titan_meter_pct"
+			textscale	0.32
 			font	"fonts/chain"
 			shear	0,-.22
 			textalign	2
-			notime	1
-
-			onTime 0 {
-				transition "forecolor" "$desktop::white" "$desktop::typecolor" "250" ;
-				transition "rect" "$d_armor_amount::rect" "$armor_amount::rect" "250" ;
-				transition "textscale" "0.6" "0.5" "250" ;
-				
-				transition "icon_armorvest::matcolor" "$desktop::white" "$desktop::armoricon" "250" ;
-			}
-
-		}
-		windowDef icon_armorvest
-		{
-			rect	424,458,16,16
-			visible	1
-			background	"gfx/guis/hud/icons/item_armor"
-			matcolor	0.658,0.639,0.376,0.6
 		}
 	}
 }

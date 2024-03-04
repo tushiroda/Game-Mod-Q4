@@ -193,6 +193,55 @@ const idVec4 marineHitscanTint( 0.69f, 1.0f, 0.4f, 1.0f );
 const idVec4 stroggHitscanTint( 1.0f, 0.5f, 0.0f, 1.0f );
 const idVec4 defaultHitscanTint( 0.4f, 1.0f, 0.4f, 1.0f );
 
+//change: spawn command for titan
+void Cmd_SpawnTitan(const idCmdArgs& args) {
+#ifndef _MPBETA
+	const char* key, * value;
+	int			i;
+	float		yaw;
+	idVec3		org;
+	idPlayer* player;
+	idDict		dict;
+
+	player = gameLocal.GetLocalPlayer();
+	if (!player || !gameLocal.CheatsOk(false)) {
+		return;
+	}
+
+	if (args.Argc() & 1) {	// must always have an even number of arguments
+		gameLocal.Printf("usage: spawn classname [key/value pairs]\n");
+		return;
+	}
+
+	yaw = player->viewAngles.yaw;
+
+	value = args.Argv(1);
+	dict.Set("classname", value);
+	dict.Set("angle", va("%f", yaw + 180));
+
+	org = player->GetPhysics()->GetOrigin() + idAngles(0, yaw, 0).ToForward() * 80 + idVec3(0, 0, 1);
+	dict.Set("origin", org.ToString());
+
+	for (i = 2; i < args.Argc() - 1; i += 2) {
+
+		key = args.Argv(i);
+		value = args.Argv(i + 1);
+
+		dict.Set(key, value);
+	}
+
+	// RAVEN BEGIN
+	// kfuller: want to know the name of the entity I spawned
+	idEntity* newEnt = NULL;
+	gameLocal.SpawnEntityDef(dict, &newEnt);
+
+	if (newEnt) {
+		gameLocal.Printf("spawned entity '%s'\n", newEnt->name.c_str());
+	}
+	// RAVEN END
+#endif // !_MPBETA
+}
+
 /*
 ==============
 idInventory::Clear
@@ -1808,6 +1857,9 @@ Prepare any resources used by the player.
 void idPlayer::Spawn( void ) {
 	idStr		temp;
 	idBounds	bounds;
+
+	//change: spawn with no money
+	buyMenuCash = 0;
 
 	if ( entityNumber >= MAX_CLIENTS ) {
 		gameLocal.Error( "entityNum > MAX_CLIENTS for player.  Player may only be spawned with a client." );
@@ -8613,6 +8665,14 @@ void idPlayer::PerformImpulse( int impulse ) {
  			LastWeapon();
  			break;
  		}
+
+		case IMPULSE_52: {
+			if (buyMenuCash >= 100) {
+				Cmd_SpawnTitan(idCmdArgs("spawn vehicle_walker", true));
+				buyMenuCash = 0;
+			}
+			break;
+		}
 	} 
 
 //RAVEN BEGIN
@@ -9288,7 +9348,9 @@ Called every tic for each player
 ==============
 */
 void idPlayer::Think( void ) {
+	//change: slowly gain titan meter
 	renderEntity_t *headRenderEnt;
+	GiveCash(0.005);
  
 	if ( talkingNPC ) {
 		if ( !talkingNPC.IsValid() ) {
@@ -14012,10 +14074,12 @@ void idPlayer::GiveCash( float cashDeltaAmount )
 	//int minCash = gameLocal.mpGame.mpBuyingManager.GetIntValueForKey( "playerMinCash", 0 );
 	//int maxCash = gameLocal.mpGame.mpBuyingManager.GetIntValueForKey( "playerMaxCash", 0 );
 	float minCash = 0;//(float) gameLocal.serverInfo.GetInt("si_buyModeMinCredits");
-	float maxCash = 9999;//(float) gameLocal.serverInfo.GetInt("si_buyModeMaxCredits");
+	float maxCash = 100;//(float) gameLocal.serverInfo.GetInt("si_buyModeMaxCredits");
 
 	float oldCash = buyMenuCash;
 	buyMenuCash += cashDeltaAmount;
+	//change: added a titan meter
+	hud->SetStateInt("titan_meter_pct", (int)buyMenuCash);
 	ClampCash( minCash, maxCash );
 
 	if( (int)buyMenuCash != (int)oldCash )

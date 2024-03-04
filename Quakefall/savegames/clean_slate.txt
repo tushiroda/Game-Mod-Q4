@@ -1,3 +1,0 @@
-"clean slate"
-"^:clean slate	^0AIR DEFENSE BUNKER"
-""
