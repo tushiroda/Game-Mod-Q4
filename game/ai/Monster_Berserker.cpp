@@ -459,7 +459,8 @@ stateResult_t rvMonsterBerserker::State_Killed	( const stateParms_t& parms ) {
 	StopEffect ( "fx_ambient_electricity_mace" );
 	
 	//change: make enemy death drop a random upgrade
-	int r = rand() % 5;
+	srand(time(0));
+	int r = rand() % 6;
 
 	switch (r) {
 	case 0:
@@ -477,6 +478,12 @@ stateResult_t rvMonsterBerserker::State_Killed	( const stateParms_t& parms ) {
 	case 4:
 		Cmd_Sp(idCmdArgs("spawn weaponmod_rocketlauncher_homing", true));
 		break;
+	case 5:
+		Cmd_Sp(idCmdArgs("spawn weaponmod_nailgun_seek", true));
+		break;
+	//cant get this to work :(
+	case 6:
+		Cmd_Sp(idCmdArgs("spawn weaponmod_speedhack", true));
 	}
 
 	return idAI::State_Killed ( parms );

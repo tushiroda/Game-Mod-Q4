@@ -30,7 +30,6 @@
 
 
 
-
 idCVar net_predictionErrorDecay( "net_predictionErrorDecay", "112", CVAR_FLOAT | CVAR_GAME | CVAR_NOCHEAT, "time in milliseconds it takes to fade away prediction errors", 0.0f, 200.0f );
 idCVar net_showPredictionError( "net_showPredictionError", "-1", CVAR_INTEGER | CVAR_GAME | CVAR_NOCHEAT, "show prediction errors for the given client", -1, MAX_CLIENTS );
 
@@ -1116,7 +1115,7 @@ bool idInventory::UseAmmo( int index, int amount ) {
 		ammo[ index ] -= amount;
  		ammoPredictTime = gameLocal.time; // mp client: we predict this. mark time so we're not confused by snapshots
 	}
-
+	
 	return true;
 }
 
@@ -8673,6 +8672,32 @@ void idPlayer::PerformImpulse( int impulse ) {
 			}
 			break;
 		}
+
+		case IMPULSE_23: {
+			idPlayer* player = gameLocal.GetLocalPlayer();
+			if (player->getPhysicsObj()->canAirDash && !player->getPhysicsObj()->groundPlane) {
+				idAngles view = player->viewAngles;
+				idVec3 dir = view.ToForward();
+				idVec3 addvel = dir * 400;
+				addvel *= idMath::Sqrt(dir.Normalize());
+				player->getPhysicsObj()->current.velocity += addvel;
+				player->getPhysicsObj()->canAirDash = false;
+			}
+			//player->getPhysicsObj()->getCurrentState().AirMove();
+			break;
+		}
+
+		case IMPULSE_24: {
+			idPlayer* player = gameLocal.GetLocalPlayer();
+			player->getPhysicsObj()->isJump = true;
+			break;
+		}
+
+		case IMPULSE_25: {
+			idPlayer* player = gameLocal.GetLocalPlayer();
+			player->getPhysicsObj()->isCrouch = true;
+			break;
+		}
 	} 
 
 //RAVEN BEGIN
@@ -8697,6 +8722,12 @@ void idPlayer::PerformImpulse( int impulse ) {
 #endif
 //RAVEN END
 }
+
+idPhysics_Player* idPlayer::getPhysicsObj() {
+	return &physicsObj;
+}
+
+//change: getAngle function
    
 /*
 ==============
@@ -9351,6 +9382,9 @@ void idPlayer::Think( void ) {
 	//change: slowly gain titan meter
 	renderEntity_t *headRenderEnt;
 	GiveCash(0.005);
+	idPlayer* player = gameLocal.GetLocalPlayer();
+	player->getPhysicsObj()->isJump = false;
+	player->getPhysicsObj()->isCrouch = false;
  
 	if ( talkingNPC ) {
 		if ( !talkingNPC.IsValid() ) {

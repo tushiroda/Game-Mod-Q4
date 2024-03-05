@@ -26,8 +26,9 @@ const float PM_FLYFRICTION		= 3.0f;
 const float PM_NOCLIPFRICTION	= 12.0f;
 // RAVEN BEGIN
 // bdube: sliding
-const float PM_SLIDEFRICTION    = 0.5f;
-const float PM_SLIDEACCEL		= 0.1f;
+const float PM_SLIDEFRICTION    = 0.28f;
+const float PM_SLIDEACCEL		= 0.0f;
+bool canSlideBoost = true;
 // RAVEN END
 
 const float MIN_WALK_NORMAL		= 0.8f;		// can't walk on very steep slopes
@@ -44,8 +45,12 @@ const int PMF_TIME_KNOCKBACK	= 64;		// movementTime is an air-accelerate only ti
 const int PMF_TIME_WATERJUMP	= 128;		// movementTime is waterjump
 const int PMF_ALL_TIMES			= (PMF_TIME_WATERJUMP|PMF_TIME_LAND|PMF_TIME_KNOCKBACK);
 
-//change: double jump flag
+//change: double jump / air dash flag
 bool canDoubleJump = true;
+bool canAirDash = false;
+//actual movement flags
+bool isJump = false;
+bool isCrouch = false;
 
 int c_pmove = 0;
 
@@ -489,14 +494,19 @@ void idPhysics_Player::Friction( void ) {
 				control = speed < PM_STOPSPEED ? PM_STOPSPEED : speed;
 // RAVEN BEGIN
 // bdube: crouch slide
-
-				if (speed > 230) {
+				//change:
+				if (speed > 250) {
 					current.crouchSlideTime += 3;
 				}
 				if ( current.crouchSlideTime > 0 && current.movementFlags & PMF_DUCKED ) {
+					if (canSlideBoost) {
+						speed += 100;
+						canSlideBoost = false;
+					}
 					drop += control * PM_SLIDEFRICTION * frametime;
 				} else {
 					drop += control * PM_FRICTION * frametime;
+					canSlideBoost = true;
 				}
 // RAVEN END				
 			}
@@ -649,6 +659,9 @@ void idPhysics_Player::AirMove( void ) {
 // bdube: crouch time
 	// if the player isnt pressing crouch and heading down then accumulate slide time
 // RAVEN END
+	//change: logic for air dashing
+	if (canDoubleJump)
+		canAirDash = true;
 
 	idPhysics_Player::CheckJump();
 
@@ -757,6 +770,7 @@ void idPhysics_Player::WalkMove( void ) {
 	//change:crouch accel
 	if (current.movementFlags & PMF_DUCKED && current.crouchSlideTime > 0) {
 		accelerate = PM_SLIDEACCEL;
+		wishspeed = 0.3;
 	}
 
 	idPhysics_Player::Accelerate( wishdir, wishspeed, accelerate );
@@ -1179,7 +1193,8 @@ void idPhysics_Player::CheckDuck( void ) {
 			}
 		}
 
-		if ( current.movementFlags & PMF_DUCKED ) {
+		//change: used my new flag rather than old one
+		if ( command.upmove < 0 ) {
 // RAVEN BEGIN
 // bdube: crouch slide
 			if ( !current.crouchSlideTime ) {
@@ -1282,7 +1297,7 @@ idPhysics_Player::CheckJump
 bool idPhysics_Player::CheckJump( void ) {
 	idVec3 addVelocity;
 
-	if ( command.upmove < 10 ) {
+	if ( !isJump ) {
 		// not holding jump
 		return false;
 	}
@@ -1292,7 +1307,7 @@ bool idPhysics_Player::CheckJump( void ) {
 		return false;
 	}
 
-	// cant have alreaedy double jumped
+	// cant have already double jumped
 	if (!canDoubleJump) {
 		return false;
 	}
@@ -1310,7 +1325,7 @@ bool idPhysics_Player::CheckJump( void ) {
 		current.velocity.z = 0;
 	}
 	if (current.velocity.z < -(1.7f * maxJumpHeight * -gravityVector).Normalize()) {
-		current.velocity.z /= 3;
+		current.velocity.z /= 4;
 	}
 
 	addVelocity = 2.4f * maxJumpHeight * -gravityVector;
@@ -1659,7 +1674,7 @@ idPhysics_Player::IsCrouching
 ================
 */
 bool idPhysics_Player::IsCrouching( void ) const {
-	//MCG: if bound, never think we're crouched
+	//MCG: if bound, never 3 we're crouched
 	return ( !masterEntity&&( current.movementFlags & PMF_DUCKED ) != 0 );
 }
 

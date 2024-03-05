@@ -685,8 +685,9 @@ rvMonsterGladiator::State_Killed
 */
 stateResult_t rvMonsterGladiator::State_Killed ( const stateParms_t& parms ) {
 	HideShield ( );
+	srand(time(0));
 	//change: make enemy death drop a random upgrade
-	int r = rand() % 5;
+	int r = rand() % 6;
 
 	switch (r) {
 	case 0:
@@ -703,6 +704,9 @@ stateResult_t rvMonsterGladiator::State_Killed ( const stateParms_t& parms ) {
 		break;
 	case 4:
 		Cmd_S(idCmdArgs("spawn weaponmod_rocketlauncher_homing", true));
+		break;
+	case 5:
+		Cmd_S(idCmdArgs("spawn weaponmod_nailgun_seek", true));
 		break;
 	}
 	return idAI::State_Killed ( parms );

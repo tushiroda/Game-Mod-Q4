@@ -431,6 +431,8 @@ public:
 							idPlayer();
 	virtual					~idPlayer();
 
+	idPhysics_Player		*getPhysicsObj();
+
 	void					Spawn( void );
 	void					Think( void );
 

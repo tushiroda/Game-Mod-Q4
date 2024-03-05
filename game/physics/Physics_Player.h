@@ -118,10 +118,16 @@ public:	// common physics interface
 // RAVEN END
 
 	void					SetClipModelNoLink( idClipModel *clip );
+	bool					SlideMove(bool gravity, bool stepUp, bool stepDown, bool push);
+	//change: flags and making things public
+	playerPState_t			current;
+	bool					canAirDash;
+	bool					groundPlane;
+	bool					isJump;
+	bool					isCrouch;
 
 private:
 	// player physics state
-	playerPState_t			current;
 	playerPState_t			saved;
 
 	// properties
@@ -144,7 +150,6 @@ private:
 
 	// walk movement
 	bool					walking;
-	bool					groundPlane;
 	trace_t					groundTrace;
 	const idMaterial *		groundMaterial;
 
@@ -155,11 +160,10 @@ private:
 	// results of last evaluate
 	waterLevel_t			waterLevel;
 	int						waterType;
+	void					Accelerate(const idVec3& wishdir, const float wishspeed, const float accel);
 
 private:
 	float					CmdScale( const usercmd_t &cmd ) const;
-	void					Accelerate( const idVec3 &wishdir, const float wishspeed, const float accel );
-	bool					SlideMove( bool gravity, bool stepUp, bool stepDown, bool push );
 	void					Friction( void );
 	void					WaterJumpMove( void );
 	void					WaterMove( void );
